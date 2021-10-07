@@ -1,0 +1,531 @@
+{% extends "base_WN.html" %}
+{% block content %}
+{% load static %}
+{% load mptt_tags %}
+
+<style>
+    /*
+    *
+    * ==========================================
+    * CUSTOM UTIL CLASSES
+    * ==========================================
+    *
+    */
+    html {
+    scroll-behavior: smooth;
+    }
+
+    .bg-cover {
+        background-size: cover !important;
+    }
+
+    .blur-back {
+        background-color: rgba(0, 0, 0, 0.384);
+        width: fit-content;
+        margin: auto;
+        padding-left: 8px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-right: 8px;
+        border-radius: 5px;
+    }
+    .blur-back-tab {
+        background-color: rgba(0, 0, 0, 0.384);
+        width: fit-content;
+        margin: auto;
+        padding-left: 8px;
+        padding-right: 8px;
+        border-radius: 3px;
+    }
+
+    .blur-blue {
+        color: white;
+        background-color: rgba(255, 0, 0, 0.747);
+        width: fit-content;
+        margin: auto;
+        padding-bottom: 2px;
+        padding-right: 5px;
+        padding-left: 5px;
+        border-radius: 2px;
+    }
+
+    .blur-blue:hover {
+        color: rgb(255, 255, 255);
+        background-color: #df1111bd;
+    }
+
+    .center {
+    margin: auto;
+    width: 100%;
+    padding: 15px;
+    }
+
+    .update {
+        background-color: rgba(255, 0, 0, 0.685);
+        margin: auto;
+        width: fit-content;
+        padding-left: 8px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-right: 8px;
+        border-radius: 5px;
+    }
+
+    .custom-scrollbar-js,
+    .custom-scrollbar-css {
+    height: 400px;
+    }
+
+    /* Custom Scrollbar using CSS */
+    .custom-scrollbar-css {
+    overflow-y: scroll;
+    }
+
+    /* scrollbar width */
+    .custom-scrollbar-css::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    }
+
+    /* scrollbar track */
+    .custom-scrollbar-css::-webkit-scrollbar-track {
+    background: #eee;
+    }
+
+    /* scrollbar handle */
+    .custom-scrollbar-css::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #00d2ff;
+    background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+    }
+
+
+    .m-0 {
+        margin: 0;
+    }
+    .sr-only {
+        position: absolute;
+        left: -10000px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+    }
+
+    .thick {
+        border-left: 1px solid #bdc3c5;
+        border-radius: 3px;
+        /* #E1EBEE */
+        /* #AFEEEE */
+        /* #AFDBF5 */
+    }
+
+    .like-button {
+        color:red;
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        padding-top: 6px;
+        padding-bottom: 2px;
+    }
+
+    .like-button:focus {
+        outline: 0;
+    }
+
+    .like-button:hover {
+        color: silver;
+    }
+
+    .dislike-button {
+        color: #32cd32;
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        padding-top: 6px;
+        padding-bottom: 2px;
+    }
+
+    .dislike-button:focus {
+        outline: 0;
+    }
+
+    .dislike-button:hover {
+        color: silver;
+    }
+
+    .bookmark {
+        color:darkorange;
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        padding-top: 6px;
+        padding-bottom: 2px;
+    }
+
+    .bookmark:focus{
+        outline: 0;
+    }
+
+    .bookmark:hover{
+        color: silver;
+    }
+
+    .brown {
+        color: brown;
+    }
+
+    .square {
+        position: relative;
+        top: -0.5em;
+        vertical-align: super;
+        font-size: small;
+        font-weight: 400;
+    }
+
+    .badge {
+        border-radius: 50%/15%;
+        text-align: center;
+        padding: 2px 5px 2px 5px;
+    }
+
+    .badge-blue {
+        color: white;
+        background: red;
+    }
+
+    .badge-brown {
+        color: white;
+        background: #32cd32;
+    }
+
+    .badge-gold {
+        color: white;
+        background-color: rgb(220, 114, 0);
+    }
+
+</style>
+
+
+<!-- Bootstrap Static Header -->
+<div class="container">
+    {% if object.image %}
+    <div style="background-image: url({{ object.image.url }});" class="jumbotron bg-cover text-white">
+    {% else %}
+    <div style="background-image: url('{% static 'images/default3.png' %}');" class="jumbotron bg-cover text-white">
+    {% endif %}
+        <div class="container py-5 text-center justify-content-center">
+            {% if object.author == user.username %}
+            <div class="container update mt-3">
+                <small>
+                    <a class="text-light" href="{% url 'post-update' object.id %}">Update |</a>
+                    <a class="text-light" href="{% url 'post-delete' object.id %}">Delete</a>
+                </small>
+            </div>
+            {% endif %}
+            <h1 class="font-weight-bold p-1">Bootstrap static header</h1>
+            <p class="mb-0 blur-back"><small> <i class="far fa-calendar-alt fa-lg"></i> {{ object.created|date:"F d, Y" }} <i class="far fa-stopwatch fa-lg"></i> {{object.created|time}} </small></p>
+            
+            <p class="text-dark mt-3">
+                <img src="{{ object.author.avatar.url }}" alt="John Doe" class="ml-n3 rounded-circle" style="width:45px;  border-top: 2.5px solid transparent; border-bottom: 2.5px solid transparent; padding: 5px;  border-left: 2.5px solid white; border-right: 2.5px solid white;">
+                <a href="{% url 'blog:user-posts' object.author_id %}" class="blur-blue">
+                    <small> {{ object.author }} profile <i class="far fa-external-link-alt"></i></small>
+                </a>
+            </p>
+            <p class="mb-0 blur-back mt-3"><small><i class="far fa-mug-hot fa-lg"></i> 10 min read..</small></p>
+            
+            <p class="mt-3 blur-back-tab">
+            <!-- like dislike -->
+            {% if request.user.is_authenticated %}
+                {% if request.user not in object.upVotes.all %}
+                    <button id="like-button" class="like-button"  value={{object.id}}><i class="far fa-heart fa-2x"></i></button>
+                {% else %}
+                    <button id="like-button" class="like-button"  value={{object.id}}><i class="fad fa-heart fa-2x"></i></button>
+                {% endif %}
+                <span id="like_count" class="badge badge-blue square">{{ object.number_of_upVotes }}</span>
+
+                
+                {% if request.user not in object.downVotes.all %}
+                    <button id="dislike-button" class="dislike-button"  value={{object.id}}><i class="fal fa-heart-broken fa-2x"></i></button>
+                {% else %}
+                    <button id="dislike-button" class="dislike-button"  value={{object.id}}><i class="fas fa-heart-broken fa-2x"></i></button>
+                {% endif %}
+                <span id="dislike_count" class="badge badge-brown square">{{ object.number_of_downVotes }}</span>
+                <!-- dislike{{ object.number_of_downVotes|pluralize:"s"}} -->
+
+                {% if request.user not in object.bookmarks.all %}
+                    <button id="bookmark_add" class="bookmark"  value={{object.id}}><i class="far fa-bookmark fa-2x"></i></button>
+                {% else %}
+                    <button id="bookmark_add" class="bookmark"  value={{object.id}}><i class="fad fa-bookmark fa-2x"></i></button>
+                {% endif %}
+                <span id="bookmark_count" class="badge badge-gold square">{{ object.get_bookmarks_count }}</span>
+
+            {% else %}
+                <a href="{% url 'users:register' %}" class="like-button"><i class="far fa-heart fa-2x"></i></a>
+                <span id="like_count" class="badge badge-blue square">{{ object.number_of_upVotes }}</span>
+                <a href="{% url 'users:register' %}" class="dislike-button"><i class="fal fa-heart-broken fa-2x"></i></a>
+                <span id="dislike_count" class="badge badge-brown square">{{ object.number_of_downVotes }}</span>
+                <a href="{% url 'users:register' %}" id="bookmark_add" class="bookmark"><i class="far fa-bookmark fa-2x"></i></a>
+                <span id="bookmark_count" class="badge badge-gold square">{{ object.get_bookmarks_count }}</span>
+            {% endif %}
+            </p>
+        </div>
+    </div>
+    </div>
+
+    <!-- For Demo Purpose -->
+    <div class="container py-2">
+        <h2 class="h3 font-weight-bold">{{ object.title }}</h2>
+        <div class="center">
+         
+                <p class="font-italic text-muted">{{ object.content }}</p>
+
+        </div>
+    </div>
+
+
+<!-- comments -->
+    <div class="row py-5">
+        <div class="col-lg-12 mx-auto">
+    
+            <div class="border-0 mb-4">
+                <div class="p-2">
+                    <h4 class="mb-2">{{ comments.count }} Comments</h4>
+                    
+                    <div class="custom-scrollbar-css p-2 border rounded">
+                        <div class="d-flex flex-column comment-section" id="myGroup">
+                            <div class="bg-white p-2">                                
+                                <div class="d-flex flex-row add-comment-section mt-4 mb-2"><img class="img-fluid img-responsive rounded-circle mr-2" src="http://www.goodmorningimagesdownload.com/wp-content/uploads/2019/12/Profile-Picture-4.jpg" width="38">
+
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    {{  comments_form }}
+                                
+                                </div>
+                                <div class="text-right"><button class="btn btn-sm btn-primary" type="submit">Comment</button></div>
+                                </form>
+
+                                <!-- comments -->
+
+                                <!-- DEMO  purpose -->
+
+
+
+                                <ul class="root">
+                                    {% recursetree comments %}
+                                        <li> 
+                                            <div class="text-muted">{{ node.user}} :: {{ node.created }}</div>
+                                            <br>
+                                            <p class="font-weight-light" id="{{ node.id }}">{{ node.body }}
+                                                {{ node.id }}</p>
+                                            <hr>
+                                            <button class="button" onclick="myFunction({{ node.id }})">reply {{ node.id }}</button>
+                                            <div class="thick" id="replies">
+                                            {% if not node.is_leaf_node %}
+                                                <ul class="children">
+                                                    {{ children }}
+                                                </ul>
+                                            {% endif %}
+                                            </div>
+                                        </li>
+                                    {% endrecursetree %}
+                                </ul>
+                                <!-- yeas it is and yeas -->
+                            </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- comments -->
+
+<!-- ajax comments -->
+    {% comment %} <form id="commentfrom" action="." method="POST">
+        {% csrf_token %}
+        {% with allcomments.count as total_comments %}
+            <p>{{ total_comments }} comment {{ total_comments|pluralize }}</p>
+        {% endwith %}
+        <select name="object" class="d-none" id="id_post">
+            <option value="{{ object.id }}" selected="{{ object.id }}"</option>
+        </select>
+        <p>post id {{ post.id }} </p>
+        <label >{{ comments_form.parent.label }}</lable>
+        {{ comments_form.parent }}
+        <img src="{{ request.user.profile.avatar.url }}">
+        {{ comments_form.body }}
+        <button value="commentform" id="newcomment" type="submit">Submit</button>
+    </form> {% endcomment %}
+<!-- ajax comments -->
+
+    
+    </div>
+
+<script>
+    // append form below new comment for every user's reply
+    function formExit() {
+        document.getElementById("reply").remove();
+    }
+
+
+    function myFunction(id) {
+        if (document.contains(document.getElementById("reply"))) {
+            document.getElementById("reply").remove();
+        }
+        var a = document.getElementById(id);
+        console.log(a);
+        a.insertAdjacentHTML('afterend', '<form id="reply" method="POST"> \
+                                    <select name="parent" class="d-none" id="id_parentt"> \
+                                    <option value="' + id + '" selected="' + id + '"></option> \
+                                    </select> \
+                                    <textarea name="body" cols="137" rows="1" class="form-control ml-1 shadow-none textarea" placeholder="Add new comment here.." maxlength="250" minlength="2" id="id_body"></textarea> \
+                                    <button id="close">close</button> \
+                                    {% csrf_token %} \
+                                    <div class="text-right"><button class="btn btn-sm btn-primary" type="submit">Comment</button></div> \
+                                    </form>');
+    }
+    
+    $('#myForm').trigger("reset");
+
+    $(document).ready(function() {
+        $('#close').on('click', function() {
+            $('#id_body').hide(800);
+        });
+    });
+
+    // like posts
+    $(document).on('click', '#like-button', function (e) {
+        e.preventDefault();
+        var likeCount;
+        $.ajax ({
+            type: 'POST',
+            url: '{% url "blog:like-post" %}',
+            data: {
+                postId: $('#like-button').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+            },
+            success: function (json) {
+                //document.getElementById("like_count").innerHTML = json['result']
+                $("#dislike_count").empty().append(json['dislike_count']);
+                $("#like_count").empty().append(json['like_count']);
+                icon = $('#like-button').find("i");
+                icon.toggleClass("fad fa-heart far fa-heart");
+                iconDis = $('#dislike-button').find("i");
+                iconDis.removeClass('fas fa-heart-broken').addClass('fal fa-heart-broken');
+                //console.log(json)
+            },
+            error: function (xhr, errmsg, err) {
+                console.log("Error while Liking post!")
+            }
+        });
+    })
+
+    
+    // dislike posts
+    $(document).on('click', '#dislike-button', function (e) {
+        e.preventDefault();
+        var dislikeCount;
+        $.ajax ({
+            type: 'POST',
+            url: '{% url "blog:dislike-post" %}',
+            data: {
+                postId: $('#dislike-button').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+            },
+            success: function (response) {
+                $("#dislike_count").empty().append(response['dislike_count']);
+                $("#like_count").empty().append(response['like_count']);
+                icon = $('#dislike-button').find("i");
+                icon.toggleClass("fas fa-heart-broken fal fa-heart-broken");
+                iconLike = $('#like-button').find("i");
+                iconLike.removeClass('fad fa-heart').addClass('far fa-heart');
+                //console.log(response)
+            },
+            error: function (xhr, errmsg, err) {
+                console.log("Error while Liking post!")
+            }
+        });
+    })
+
+    // bookmarks posts
+    $(document).on('click', '#bookmark_add', function (e) {
+        e.preventDefault();
+        var bookmarkCount;
+        $.ajax ({
+            type: 'POST',
+            url: '{% url "users:add-post-bookmark-detail-page" %}',
+            data: {
+                postId: $('#bookmark_add').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+            },
+            success: function (response) {
+                $("#bookmark_count").empty().append(response['bookmark_count']);
+                icon = $('#bookmark_add').find("i");
+                icon.toggleClass("fad fa-bookmark far fa-bookmark");
+                console.log(response)
+            },
+            error: function (xhr, errmsg, err) {
+                console.log("Error while bookmarking post!")
+            }
+        });
+    })
+
+</script>
+{% endblock %}
+
+
+
+
+
+{% comment %}
+  FOR AJAXIFY COMMENTS
+ $(document).on('click', '#newcomment, #newcommentinner', function (e) {
+    e.preventDefault();
+
+    var button = $(this).attr("value");
+    console.log(button);
+
+    var placement = "commentform"
+    if (button == "newcommentform") {
+      var placement = "newcommentform"
+    }
+
+    // csrf_token
+
+    
+
+    const csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    console.log(csrf_token);
+
+
+    // csrf_token
+
+    var mForm = $("#" + button).serialize();
+
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url "blog:add-comment" %}',
+      //headers: {'X-CSRFToken': '{{ csrf_token }}'},
+      data: {'form': mForm,
+            'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val()},
+      success: function (json) {
+
+        $('<div id="" class="my-2 p-2" style="border: 1px solid grey"> \
+          <div class="d-flex justify-content-between">By ' + json['user'] + '<div></div>Posted: Just now!</div> \
+          <div>' + json['result'] + '</div> \
+          <hr> \
+          </div>').insertBefore('#' + placement);
+      },
+      error: function (xhr, errmsg, err) {
+        alert('Error occurs!');
+      }
+    });
+  }) {% endcomment %}

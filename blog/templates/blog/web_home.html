@@ -1,0 +1,190 @@
+{% extends "base_B5.html" %}
+{% load static %}
+{% load hitcount_tags %}
+{% block content %}
+
+<style>
+    .bookmark {
+        color:black;
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        padding-top: 6px;
+        padding-bottom: 2px;
+    }
+
+    .bookmark:focus{
+        outline: 0;
+    }
+
+    .bookmark:hover{
+        color: silver;
+    }
+    .badge-gold {
+        color: white;
+        background-color: rgb(220, 114, 0);
+    }
+
+    .bookmark-switch {
+        color: darkorange;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 order-first">
+            {% for post in queryset %}
+            <div class="posts row border border rounded pt-4 mt-3 mb-4">
+                {% if post.image %}
+                <div class="col-md-4 mb-4"> <img class="post_img" src="{{ post.image.url }}" alt="blog image" height="180px">
+                </div>
+                {% else %}
+                <div class="col-md-4 mb-4"> <img src="{% static 'images/default3.png' %}" alt="" width="100%" height="180px"></div>
+                {% endif %}
+                <div class="col-md-8 mb-4">
+                    <div class="d-flex align-items-center">
+                        {% if post.category.id == 1 %}
+                        <span class="bg-python">#{{post.category|truncatechars:8}}</span>
+                        {% elif post.category.id == 2 %}
+                        <span class="bg-vio">#{{post.category|truncatechars:8}}</span>
+                        {% elif post.category.id == 3 %}
+                        <span class="bg-orgn">#{{post.category|truncatechars:8}}</span>
+                        {% elif post.category.id == 4 %}
+                        <span class="bg-violet">#{{post.category|truncatechars:8}}</span>
+                        {% else %}
+                        <span class=" bg-vio">#{{post.category|truncatechars:8}}</span>
+                        {% endif %}
+                        <span class="text-muted ps-2"><a href="{% url 'users:public_profile_view' post.author.id  %}"><i
+                                    class="fas fa-user"></i> {{post.author|truncatechars:8}}</a>
+                            |</span>
+                        <span class="text-muted ps-1">{{ post.created|date:"F d,Y"}}</span>
+                    </div>
+                    <div class="d-flex">
+                        <p class="text-uppercase fs5 my-3 fw-bolder"><a>{{ post.title|truncatewords:8 }}</a></p>
+                        <span class="ms-auto justify-content-end pe-2 ps-1" style="white-space: nowrap;">
+                            <span id="{{post.id}}" class="bookmark_coun text-muted">{{ post.get_bookmarks_count }}</span>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user not in post.bookmarks.all %}
+                                    <button id="bookmark_add" class="bookmark" data-id="{{post.id}}"  title="bookmark post"><i class="far fa-bookmark fa-lg"></i></button>
+                                {% else %}
+                                    <button id="bookmark_add" class="bookmark" data-id="{{post.id}}" title="bookmark post"><i class="fad fa-bookmark fa-lg"></i></button>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'users:register' %}" id="bookmark_add" class="bookmark" title="bookmark post"><i class="far fa-bookmark fa-lg"></i></a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-muted">
+                            {{ post.content|linebreaksbr|truncatewords:25 }}
+                            {% if post.content|wordcount > 25 %}
+                            <a href=" {% url 'blog:post-detail' post.slug %}" title="view full post">Read More > </a>
+                            {% else %}
+                            <a href=" {% url 'blog:post-detail' post.slug %}" title="view post">View post > </a>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <span class="text-muted ps-1 pe-2">
+                            <i class="far fa-eye m-1 text-muted"></i> {% get_hit_count for post %}
+                            <!-- <i class="fad fa-eye text-secondary"></i> -->
+                            Views {{ hitcount.hit_counted }}</span>
+                        <span class="text-muted">
+                            <!-- <i class="fas fa-thumbs-up"></i> -->
+                            <i class="fas fa-angle-double-up fa-lg"></i>
+                            {% if post.upVotes.exists %}
+                                {{ post.upVotes.count }}
+                            {% endif %}
+                        </span>
+                        <span class="text-muted ps-2 pe-2">
+                            <!-- <i class="fas fa-thumbs-down"></i> -->
+                                <i class="fas fa-angle-double-down fa-lg text-danger"></i>
+
+                            {% if post.downVotes.exists %}
+                                {{ post.number_of_downVotes }}
+                            {% endif %}
+                        </span>
+                        <span class="text-muted">
+                            <!-- <i class="fas fa-comments"></i> -->
+                            <i class="far fa-comment-alt-lines"></i>
+                            {% if post.comments.exists %}
+                                {{ post.comments.count }}
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-4 order-last mt-5 mb-3 ps-4">
+            <ul class="list-group">
+            <span class="fs-4 mb-2 fw-bold text-capitalize">CATEGORIES</span>
+            <div class="cats d-flex flex-column">
+                <div class="cat d-flex align-items-center justify-content-between py-2"> <span>Web
+                        Design</span> <span class="bg-green">340</span> </div>
+                <div class="cat d-flex align-items-center justify-content-between py-2">
+                    <span>javascript</span> <span class="bg-orgn">74</span>
+                </div>
+                <div class="cat d-flex align-items-center justify-content-between py-2">
+                    <span>JQuery</span> <span class="bg-blu">41</span>
+                </div>
+                <div class="cat d-flex align-items-center justify-content-between py-2"> <span>CSS</span>
+                    <span class="bg-violet">35</span>
+                </div>
+            </div>
+            </ul>
+            
+            <div class="fs-4 fw-bold text-capitalize mt-4 mb-2">TAGS </div>
+            <div class="d-flex flex-wrap pb-5">
+                <a class="items" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Chorme" href="#">Chorme</a> <a class="items" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="CSS" href="#">CSS</a> <a class="items" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Tutorial" href="#">Tutorial</a> <a class="items" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Backend" href="#">Backend</a> <a class="items"
+                    data-bs-toggle="tooltip" data-bs-placement="left" title="JQuery" href="#">JQuery</a> <a
+                    class="items" data-bs-toggle="tooltip" data-bs-placement="top" title="Design" href="#">Design</a> <a
+                    class="items" data-bs-toggle="tooltip" data-bs-placement="right" title="Development"
+                    href="#">Development</a>
+                <a class="items" data-bs-toggle="tooltip" data-bs-placement="bottom" title="javascript"
+                    href="#">Javascript</a>
+                <a class="items" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Website"
+                    href="#">Website</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    // bookmarks posts
+    $(document).on('click', '#bookmark_add', function (e) {
+        e.preventDefault();
+        var bookmarkCount;
+        var id = $(this).data("id");
+        console.log(id);
+        $.ajax ({
+            type: 'POST',
+            url: '{% url "users:add-post-bookmark" %}',
+            data: {
+                'id': id,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function (response) {
+                $('#'+id).empty().append(response['bookmark_count']);
+                console.log(response);
+            },
+            error: function (xhr, errmsg, err) {
+                console.log("Error bookmarking post!");
+            }
+        });
+    })
+
+    $('.bookmark').click(function(){
+        $(this).find('i').toggleClass("far fa-bookmark fad fa-bookmark");
+    })
+
+
+</script>
+
+{% endblock content %}

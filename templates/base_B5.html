@@ -1,0 +1,300 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon_io/apple-touch-icon.png' %">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon_io/favicon-16x16.png' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'CSS/blog_home.css' %}">
+    <title>sky community</title>
+    <!-- ajax -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+</head>
+
+<body>
+
+    <!-- logo -->
+    <div class="logo bg-dark text-light l-0 p-2">Sky</div>
+    <!-- logo -->
+
+    
+    <!-- navbar -->
+    <ul class="nav nav-tabs bg-transparent border-0 justify-content-center sticky-top p-1" id=" myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link bg-transparent active shadow-sm" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                type="button" role="tab" aria-controls="home" aria-selected="true" data-toggle=" tooltip"
+                title="home"><i class="fas fa-home fa-lg"></i></button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link bg-transparent shadow-sm" id="search-tab" data-bs-toggle="tab" data-bs-target="#search"
+                type="button" role="tab" aria-controls="search" aria-selected="false" data-toggle="tooltip"
+                title="search">
+                <i class="fas fa-search fa-lg"></i></button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link bg-transparent shadow-sm" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                type="button" role="tab" aria-controls="profile" aria-selected="false" data-toggle=" tooltip"
+                title="profile">
+                <i class="fas fa-info-circle fa-lg" aria-hidden="true"></i> </button>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link shadow-sm" href="{% url 'blog:post-create' %}" data-toggle=" tooltip" title="add new blog">
+                <i class="fas fa-plus-circle fa-lg"></i></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link shadow-sm" href="{% url 'users:profile-update' %}" data-toggle=" tooltip" title="profile">
+                <i class="fas fa-user-cog fa-lg"></i></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link shadow-sm" href="{% url 'users:logout' %}" data-toggle=" tooltip" title="log out">
+                <i class=" fas fa-sign-out-alt fa-lg"></i></a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link shadow-sm" href="{% url 'users:register' %}" data-toggle=" tooltip" title="register">
+                <i class="fas fa-user-plus fa-lg"></i></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link shadow-sm" href="{% url 'users:login' %}" data-toggle="tooltip" title="login">
+                <i class="fas fa-sign-in-alt fa-lg"></i></a>
+        </li>
+
+        {% endif %}
+    </ul>
+
+    <!-- messages -->
+    <div class="container position-absolute">
+        <div class="row justify-content-md-end">
+            <div class="col-md-auto">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="alert alert-{{ message.tags }} alert-white rounded shadow-sm p-2">
+                    <div class="icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <strong>blan--</strong>
+                    <strong>Success!</strong> 
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% elif message.tags == 'info' %}
+                <div class="alert alert-{{ message.tags }} alert-white rounded shadow-sm p-2">
+                    <div class="icon">
+                        <i class="fa fa-info-circle"></i>
+                    </div>
+                    <strong>blan--</strong>
+                    <strong>Hello!</strong> 
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% elif message.tags == 'warning' %}  
+                <div class="alert alert-{{ message.tags }} alert-white rounded shadow-sm p-2">
+                    <div class="icon">
+                        <i class="fa fa-warning"></i>
+                    </div>
+                    <strong>blan--</strong>
+                    <strong><i class="fas fa-exclamation-triangle text-warning"></i>!</strong> 
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>     
+                {% elif message.tags == 'error' %}
+                <div class="alert alert-{{ message.tags }} alert-white rounded shadow-sm p-2">
+                    <div class="icon">
+                        <i class="fa fa-times-circle"></i>
+                    </div>
+                    <strong>blan--</strong>
+                    <strong>Error!</strong> 
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+            </div>
+        </div>  
+    </div>
+        <!-- messages -->
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+            <div class="container mt-5 mb-5">
+                <div class="card" style="z-index: -1">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <div class="p-3 text-center border-end"> <img class="rounded-circle" style="width: 45%;"
+                                    src="https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png" />
+                                <h4 class="mt-2">Shivam Manswalia</h4> <span
+                                    class="d-flex justify-content-center align-items-center"><small
+                                        class="margin-right mr-1">north India  </small> <i
+                                        class="ml-1 fa fa-location-circle text-success"></i></span> <span
+                                    class="address-content">Top mountains Himalya IND</span>
+                                <div class="content-aboutme mt-3 p-3">
+                                    <h1>About Me</h1> <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                        consequat.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center"> <span
+                                        class="fw-bold text-dark"><h4>Portfolio</h4></span> <i
+                                        class="fa fa-search-plus text-dark"></i> </div>
+                                <div class="d-flex gap-2 mt-2">
+                                    <p>Professional artist Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi natus nobis consequatur eius nisi aspernatur ipsam error, iste voluptatum fugit, placeat totam, nostrum debitis non ut alias quas provident tempora!</p>
+                                </div>
+
+                                <div class="portfolio-content mt-3">
+                                    <h4 class="dark-color mt-5">Skills</h4>
+                                    <div class="progress mt-4 shadow-sm">
+                                        <div class="progress-bar" role="progressbar" style="width: 85%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Python 85%</div>
+                                    </div>
+                                    <br>
+                                    <div class="progress shadow-sm">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Django 75%</div>
+                                    </div>
+                                    <br>
+                                    <div class="progress shadow-sm">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 55%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">C++ 35%</div>
+                                    </div>
+                                    <br>
+                                    <div class="progress shadow-sm">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 45%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">2 years</div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 mb-2">
+                                    <h5>Area of Expertise</h5>
+                                    <div class=""> <span class="badge bg-dark mb-1">Vegetable</span> <span
+                                            class="badge bg-dark">Primary</span> <span
+                                            class="badge bg-dark">Primary</span> <span
+                                            class="badge bg-dark">Primary</span> <span
+                                            class="badge bg-dark">Primary</span> <span
+                                            class="badge bg-dark">Primary</span> <span
+                                            class="badge bg-dark">Primary</span> <span class="badge bg-danger mb-1">Dry
+                                            Fruits</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class='container mt-n2'>
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="search-tab">
+            <div class="container mb-5">
+                <div class="row d-flex justify-content-center">
+                    <header class="d-flex justify-content-center">
+                        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                            <span class="fs-2 mt-2">Search Blogs</span>
+                        </a>
+                    </header>
+                    <form method='GET' action="." class="row g-3">
+                        <div class="col-12">
+                            <div class="inputWithIcon">
+                                <input type="text" class="form-control  " placeholder="Title contains.."
+                                    name="title_contains">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="col-12  ">
+                            <div class="inputWithIcon">
+                                <input type="text" class="form-control  " placeholder="ID exact.." name="id_exact">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="col-12  ">
+                            <div class="inputWithIcon">
+                                <input type="text" class="form-control  " placeholder="Title or Author.."
+                                    name="title_or_author">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="viewCountMin" class="form-label">Minimum View Count</label>
+                            <input type="number" min=0 class="form-control" name="view_count_min">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="viewCountMax" class="form-label">Maximum View Count</label>
+                            <input type="number" min=0 class="form-control" name="view_count_max">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="category" class="form-label">Category</label>
+                            <select id="category" class="form-select" name="category">
+                                {% for cat in category %}
+                                <option value="{{ cat }}">{{ cat }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="publishDateMin" class="form-label">Publish Date Minimum</label>
+                            <input type="date" class="form-control" name="date_min">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="publishDateMax" class="form-label">Publish Date Maximum</label>
+                            <input type="date" class="form-control" name="date_max">
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="reviewed" name="reviewed">
+                                <label class="form-check-label" for="reviewed">
+                                    Reviewed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="notReviewed" name="notReviewed">
+                                <label class="form-check-label" for="reviewed">
+                                    Not Reviewed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12 p-2">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Advance Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- navbar -->
+
+</body>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
+</html>

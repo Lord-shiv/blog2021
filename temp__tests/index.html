@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <title>Document</title>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif
+    }
+
+    .container {
+        padding: 20px
+    }
+
+    img {
+        height: 170px;
+        width: 100%;
+        object-fit: cover
+    }
+
+    .bg-org {
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 3px;
+        background-color: #eca726;
+        color: white;
+        font-weight: 800;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px 20px
+    }
+
+    .bg-org:hover {
+        background-color: #eec67c
+    }
+
+    .bg-blue {
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 3px;
+        background-color: #414df0;
+        color: white;
+        font-weight: 800;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px 20px
+    }
+
+    .bg-blue:hover {
+        background-color: #abb0f5
+    }
+
+    .bg-vio {
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 3px;
+        background-color: #b005ff;
+        color: white;
+        font-weight: 800;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px 20px
+    }
+
+    .bg-vio:hover {
+        background-color: #ce89ee
+    }
+
+    .bg-green {
+        background-color: #27e727;
+        border-radius: 10%;
+        color: white;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1px 4px
+    }
+
+    .bg-orgn {
+        background-color: #eca726;
+        border-radius: 10%;
+        color: white;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1px 4px
+    }
+
+    .bg-blu {
+        background-color: #414df0;
+        border-radius: 10%;
+        color: white;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1px 4px
+    }
+
+    .bg-violet {
+        background-color: #b005ff;
+        border-radius: 10%;
+        color: white;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1px 4px
+    }
+
+    .text-muted {
+        font-size: 14px
+    }
+
+    .fs5 {
+        line-height: 20px;
+        font-size: 16px
+    }
+
+    .items {
+        font-size: 15px;
+        background-color: black;
+        color: white;
+        margin: 3px 3px;
+        padding: 4px 10px;
+        text-decoration: none;
+        border: 1px solid #ddd
+    }
+
+    .items:hover {
+        background-color: #fcf7f7;
+        color: black;
+        transition: background-color .8s
+    }
+
+    /* profile hover */
+    .dots {
+        height: 20px;
+        width: 20px;
+        background-color: green;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        right: -4px;
+        bottom: 8px
+    }
+
+    .box-ellipse {
+        background-color: #ebedf0;
+        padding-right: 10px;
+        color: #000;
+        padding-left: 10px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-radius: 4px;
+        cursor: pointer
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 order-first">
+                <div class="row shadow">
+                    <div class="col-md-4 mb-4"> <img class=""
+                            src="https://images.pexels.com/photos/3184611/pexels-photo-3184611.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                            alt=""> </div>
+                    <div class="col-md-8 mb-4">
+                        <div class="d-flex align-items-center">
+                            <span class="bg-org">#javascript</span>
+                            <span class="text-muted ps-2">username |</span>
+                            <span class="text-muted ps-1">March 27, 2021</span>
+                        </div>
+                        <div>
+                            <p class="text-capitalize fs5 my-3 fw-bolder"><a>why node.js os the one two three four five
+                                    six eight </a>
+                            <p class="text-muted">Lorem, ipsum dolor sit amet consectetur adipisicing elit. numquam,
+                                quisquam ad, necessitatibus illum explicabo ut pariatur iusto asperiores dicta
+                                repudiandae delectus facere
+                                <a href="#">Read More > </a>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="text-muted ps-2"> 80000 views</span>
+                            <span class="text-muted">
+                                <i class="fas fa-thumbs-up text-light bg-primary rounded-circle p-1 m-1"></i>23k
+                            </span>
+                            <span class="text-muted">
+                                <i class="fas fa-thumbs-down text-light bg-danger rounded-circle p-1 m-1"></i>2k
+                            </span>
+                            <span class="ps-5">
+                                <i class="fas fa-bookmark"></i>
+                                <i class="far fa-bookmark"></i> 34
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 order-last mb-3"> <span class="fs-4 mb-2 fw-bold text-capitalize">catagories</span>
+                <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between border-bottom py-2"> <span>Web
+                            Design</span> <span class="bg-green">340</span> </div>
+                    <div class="d-flex align-items-center justify-content-between border-bottom py-2">
+                        <span>javascript</span> <span class="bg-orgn">74</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between border-bottom py-2">
+                        <span>JQuery</span> <span class="bg-blu">41</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between border-bottom py-2"> <span>CSS</span>
+                        <span class="bg-violet">35</span>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap my-5 pb-5"> <a class="items" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Chorme" href="#">Chorme</a> <a class="items"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="CSS" href="#">CSS</a> <a class="items"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Tutorial" href="#">Tutorial</a> <a
+                        class="items" data-bs-toggle="tooltip" data-bs-placement="top" title="Backend"
+                        href="#">Backend</a> <a class="items" data-bs-toggle="tooltip" data-bs-placement="left"
+                        title="JQuery" href="#">JQuery</a> <a class="items" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Design" href="#">Design</a> <a class="items"
+                        data-bs-toggle="tooltip" data-bs-placement="right" title="Development" href="#">Development</a>
+                    <a class="items" data-bs-toggle="tooltip" data-bs-placement="bottom" title="javascript"
+                        href="#">Javascript</a>
+                    <a class="items" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Website"
+                        href="#">Website</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script>
+
+    var e = document.getElementById('icon');
+    e.onmouseover = function () {
+        document.getElementById('info').style.display = 'block';
+    }
+    e.onmouseout = function () {
+        document.getElementById('info').style.display = 'none';
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
+
+</html>

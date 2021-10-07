@@ -1,0 +1,137 @@
+{% extends "base_WN.html" %}
+{% load static %}
+{% block content %}
+{% load hitcount_tags %}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+{% comment %} {% for posts in object.get_related_posts_by_tags %}
+   {{ posts.title }}
+{% endfor %} {% endcomment %}
+{% for post in posts %}
+<ul class="timeline">
+	<li>
+		<!-- begin timeline-time -->
+		<div class="timeline-time">
+			<span class="date mr-2">{{ post.created|date:"F d,Y"}}</span>
+			<span class="time">{{ post.created|time }}</span>
+		</div>
+		<!-- end timeline-time -->
+		<!-- begin timeline-icon -->
+		<div class="timeline-icon">
+			<a href="javascript:;">&nbsp;</a>
+		</div>
+		<!-- end timeline-icon -->
+		<!-- begin timeline-body -->
+		<div class="timeline-body">
+			<div class="timeline-header">
+				<span class="userimage"><img src="{{ post.author.avatar.url }}" alt="profile pic"></span>
+				<span class="username"><a
+						href="{% url 'users:public_profile_view' post.author.id  %}">{{post.author|truncatechars:13}}</a>
+				</span>
+			</div>
+			<div class="timeline-content">
+				<span class="text-muted"><i class=" fas fa-tag"></i> {{post.category}}</span>
+				<span class="pull-right text-muted"><i class="fas fa-bookmark"></i>
+					<i class="far fa-bookmark"> </i> 34</span>
+				<h4>{{ post.title|truncatewords:7 }}</h4>
+				{% if post.image %}
+				<p class="m-t-20 w-100">
+					<img src="{{ post.image.url }}" alt="">
+				</p>
+				<p class="text-justify">
+							{% if post.content|wordcount == 1 %}
+								{{ post.content|truncatechars:30 }}
+							{% elif post.content|wordcount == 2 %}
+								{{ post.content|truncatechars:30 }}
+							{% elif post.content|wordcount == 3 %}
+								{{ post.content|truncatechars:70 }}
+							{% else %}
+								{{ post.content|linebreaksbr|truncatewords:100 }}
+							{% endif %}
+				</p>
+				{% endif %}
+			</div>
+			<div class="timeline-likes">
+				<div class="stats-right">
+					<span class="stats-text">
+						<i class="far fa-eye"></i> {% get_hit_count for post %} Views {{ hitcount.hit_counted }}
+
+					</span>
+
+				</div>
+				<div class="stats">
+					{% if post.upVotes.count.exists %}
+					<span class="stats-total">{{ post.upVotes.count }}</span>
+					{% endif %}
+					<span class="fa-stack fa-fw stats-icon">
+						<i class="fa fa-circle fa-stack-2x text-primary"></i>
+						<i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
+					</span>
+					{% if post.upVotes.count.exists %}
+					<span class="stats-total">{{ post.downVotes.count }}</span>
+					{% endif %}
+					<span class="fa-stack fa-fw stats-icon">
+						<i class="fa fa-circle fa-stack-2x text-danger"></i>
+						<i class="fa fa-thumbs-down fa-stack-1x fa-inverse"></i>
+					</span>
+				</div>
+			</div>
+			<div class="timeline-footer">
+				<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i>
+				</a>
+				<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i>
+				</a>
+				<a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i>
+				</a>
+				<a href="{% url 'user-posts' post.author %}" class="float-right text-primary">
+					continue..
+					<i class="fas fa-chevron-right"></i>
+				</a>
+			</div>
+		</div>
+		<!-- end timeline-body -->
+	{% endfor %}
+		<!-- begin timeline-body -->
+		<p></p>
+		<div class="timeline-body">
+			Loading...
+		</div>
+		<!-- begin timeline-body -->
+	</li>
+</ul>
+</div>
+
+<!-- pagination -->
+<nav class="" aria-label="...">
+	<ul class="pagination justify-content-center mb-4 mt-4">
+		<li class="page-item disabled shadow">
+			{% if is_paginated %}
+				{% if page_obj.has_previous %}
+				<a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">
+					<i class="bi bi-chevron-compact-left"></i>
+				</a>
+			{% endif %}
+		</li>
+
+		{% for num in page_obj.paginator.page_range %}
+			{% if page_obj.number == num %}
+			<li class="page-item active shadow"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+			{% elif num > page_obj.number|add:'-6' and num < page_obj.number|add:'6' %} <li class="page-item shadow"><a
+					class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+			{% endif %}
+		{% endfor %}
+		{% if page_obj.has_next %}
+		<li class="page-item shadow">
+			<a class="page-link" href="?page={{ page_obj.next_page_number }}"><i
+					class="bi bi-chevron-compact-right"></i></a>
+		</li>
+		{% endif %}
+
+		{% endif %}
+	</ul>
+</nav>
+<!-- pagination -->
+
+{% endblock content %}

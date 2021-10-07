@@ -1,0 +1,170 @@
+{% extends "base_WN.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+  <div class="row gutters">
+    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+      <div class="card user-card shadow mt-4">
+        <div class="card-header">
+          <h5>Profile</h5>
+          <span class="text-muted"><small> able to customize. </small></span>
+        </div>
+        <div class="card-block">
+          <div class="user-image">
+            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="img-radius" alt="User-Profile-Image">
+          </div>
+
+          <!-- <div class="mt-2">
+            <span class="btn btn-primary" for="image_upload"><i class="fa fa-upload"></i></span>
+            <input id="image_upload" type="file" style="display: none;" />
+          </div> -->
+
+          <div class="mt-2">
+            <!-- <label for="fileInput">
+            <img width="30px" src="https://thebakersnest.in/wp-content/uploads/2019/10/img_234957.png">
+          </label>
+          <input id="fileInput" type="file" style="display: none;"> -->
+          </div>
+
+          <h6 class=" f-w-600 m-t-25 m-b-10">{{user.username}}</h6>
+          <p class="text-muted">Email: {{user.email}}</p>
+          <p class="text-muted">{{ user.profile.country }} | {{ user.profile.gender }} | {{ user.profile.date_of_birth}}
+          </p>
+          <p class='text-muted mb-0'>Number of posts uploaded</p>
+          <p class="font-weight-light display-4 mt-0">23</p>
+          <!-- TODO condition if user has bookmarks and add how many there are -->
+          <p class='text-muted mb-0'><a href="{% url 'users:bookmarks-list' %}">view Saved posts <i class="far fa-external-link-alt"></i></a></p>
+          <p class="font-weight-light display-2 mt-0">{{ user.profile.bookmarks.count }}</p>
+          <hr>
+          <p class="text-muted m-t-15">Activity Level: 40%</p>
+          <ul class="list-unstyled activity-leval">
+            <li class="active"></li>
+            <li class="active"></li>
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <div class="bg-c-blue counter-block m-t-10 p-20">
+            <div class="row">
+              <div class="col-6">
+                <p>followers</p>
+                <!-- <i class="fa fa-user"></i> -->
+                <p>{{ user.profile.followers.count }}</p>
+              </div>
+              <div class="col-6">
+                <!-- <i class="fas fa-users"></i> -->
+                <p>following</p>
+                <p>{{ user.profile.following.count }}</p>
+              </div>
+              <!-- <div class="col-4">
+                <i class="fa fa-suitcase"></i>
+                <p>189</p>
+              </div> -->
+            </div>
+          </div>
+          <p class="m-t-15 text-muted">{{user.profile.bio }}</p>
+          <hr>
+          <div class="row justify-content-center user-social-link">
+            <div class="col-auto"><a href="#!"><i class="fa fa-facebook text-facebook"></i></a></div>
+            <div class="col-auto"><a href="#!"><i class="fa fa-twitter text-twitter"></i></a></div>
+            <div class="col-auto"><a href="#!"><i class="fa fa-dribbble text-dribbble"></i></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+      <div class="card h-100 card-edit mt-4">
+        <div class="card-body">
+          <!-- form -->
+          <form method="POST" enctype="multipart/form-data" class="from-group">
+            {% csrf_token %}
+
+
+            <div class="row gutters">
+
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h6 class="mb-2 text-primary">Personal Details</h6>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="eMail">Username</label>
+                  <input type="email" class="form-control" value="{{ user.username }}" disabled="disabled">
+                  <small>
+                    <p class="font-weight-light text-success">you can not update username*</p>
+                  </small>
+
+                </div>
+              </div>
+
+              <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="eMail">Email</label>
+                  <input type="email" class="form-control" value="{{ user.email }}" disabled="disabled">
+                  <small>
+                    <p class="font-weight-light text-success">you can not update email*</p>
+                  </small>
+                </div>
+              </div>
+
+              <div class="col-xl-12">
+                <div class="form-group">
+                  {{ p_form|crispy }}
+                </div>
+              </div>
+
+
+              <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="First Name">First Name</label>
+                  <input type="text" class="form-control" name="first_name" placeholder="Enter first name"
+                    value="{{ user.profile.first_name }}">
+                </div>
+              </div> -->
+
+
+            </div>
+            <!-- <div class="row gutters">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h6 class="mt-3 mb-2 text-primary">Address</h6>
+              </div>  
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="Street">Street</label>
+                  <input type="name" class="form-control" id="Street" placeholder="Enter Street">
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="ciTy">City</label>
+                  <input type="name" class="form-control" id="ciTy" placeholder="Enter City">
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="sTate">State</label>
+                  <input type="text" class="form-control" id="sTate" placeholder="Enter State">
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <label for="zIp">Zip Code</label>
+                  <input type="text" class="form-control" id="zIp" placeholder="Zip Code">
+                </div>
+              </div>
+            </div> -->
+            <div class="row gutters">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="text-right">
+                  <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

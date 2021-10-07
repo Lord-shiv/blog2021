@@ -1,0 +1,220 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{% static 'CSS/main.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- icons -->
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+
+
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark px-5 py-0 pl-4 pr-4 navbar-custom">
+    <button class="navbar-toggler m-n1 px-2 py-0" type="button" data-toggle="collapse"
+      data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="{% url 'blog:home' %}" data-toggle=" tooltip" data-placement="left"
+      title="Website logo">SyK~ToW</a>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'blog:home' %}" data-toggle=" tooltip" data-placement="left" title="home"><i
+              class="fas fa-home"></i> <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="" data-toggle=" tooltip" data-placement="left" title="achievements">
+            <i class="fas fa-award"></i><span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-toggle=" tooltip" data-placement="left"
+            title="about developer"> <i class="far fa-address-card"></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link small disabled" href="#">disabled links will be available soon</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="" data-toggle=" tooltip" data-placement="left" title="dark mode"><i
+              class="fas fa-cloud-moon"></i>
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="" data-toggle=" tooltip" data-placement="left" title="light mode">
+            <i class="bi bi-brightness-high"></i><span class="sr-only">(current)</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav ml-auto">
+        <form class="form-inline" action="/search" method="get">
+          <input class="form-control form-control-sm mr-3 pl-2 pr-2 bg-dark text-light" name="q" type="search"
+            placeholder="Search" aria-label="Search">
+        </form>
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'post-create' %}" data-toggle=" tooltip"
+            data-placement="left" title="new post">
+            +
+            <i class="far fa-file"></i>
+          </a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'profile_update' %}" data-toggle=" tooltip"
+            data-placement="left" title="profile">
+            <i class="fas fa-user-cog"></i>
+          </a>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="{% url 'users:logout' %}" data-toggle=" tooltip" data-placement="left"
+            title="log out">
+            <i class=" fas fa-sign-out-alt"></i>
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}" data-toggle=" tooltip" data-placement="left"
+            title="login">
+            <i class="fas fa-sign-in-alt"></i>
+          </a>
+        </li>
+        <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#registerModal" data-toggle=" tooltip"
+            data-placement="left" title="register">
+            <i class="bi bi-person-plus-fill"></i>
+            <!-- <div class="small d-inline">Sign up</div> -->
+          </a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- messages -->
+  <div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+  <!-- messages -->
+  <!-- Login Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalTitle">
+            <i class="fas fa-user-plus"></i> Sign Up
+          </h5>
+        </div>
+        <div class="modal-body">
+
+          <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group p-2">
+              {{ register_form|crispy }}
+            </div>
+
+            <div class="border-top pt-3">
+              <small class="text-lowercase">Already Have An Account? <a class="ml-2" href="{% url 'users:login' %}">Sign
+                  In</a></small>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-dark">Submit</button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+  <div class="container">
+    <div class="row gutters">
+      {% block content %}{% endblock content %}
+    </div>
+  </div>
+
+
+  <footer class="text-white-50 sticky-bottom p-3 footer-custom">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <ul class="list-unstyled list-inline social text-center">
+        <li class="list-inline-item pr-2">
+          <h2><a href="https://www.facebook.com"><i class="fab fa-facebook fa-xs"></i></a></h2>
+        </li>
+        <li class="list-inline-item pr-2">
+          <h2><a href="https://www.twitter.com"><i class="fab fa-twitter fa-xs"></i></a></h2>
+        </li>
+        <li class="list-inline-item pr-2">
+          <h2><a href="https://www.instagram.com"><i class="fab fa-instagram fa-xs"></i></a></h2>
+        </li>
+        <li class="list-inline-item pr-2">
+          <h2><a href="https://www.google.com"><i class="fab fa-google fa-xs"></i></a></h2>
+        </li>
+        <li class="list-inline-item pr-2">
+          <h2><a href="https://wwww.linkedin.com" target="_blank"><i class="fab fa-linkedin-in fa-xs"></i></a></h2>
+        </li>
+      </ul>
+    </div>
+    <div class="container text-center">
+      <small>Copyright &copy; 2021 || Developer email - shivamchouhan@gmail.com || for more info visit about section of
+        the
+        website.</small>
+    </div>
+  </footer>
+
+  <!-- Optional JavaScript -->
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' })
+    })
+
+    $(document).ready(function () {
+
+
+
+    });
+  </script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src='{% static ' js/main.js' %}'></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
