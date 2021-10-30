@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
 from django.contrib.auth.models import PermissionsMixin
 from django_resized import ResizedImageField
 from django.conf import settings
+from django.core.validators import RegexValidator
 
 
 class UserManager(BaseUserManager):
@@ -17,7 +18,7 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             username=username
         )
-        user_obj.set_password(password)  # change user password
+        user_obj.set_password(password)
         user_obj.save(using=self._db)
         return user_obj
 
@@ -44,20 +45,19 @@ class UserManager(BaseUserManager):
         user_obj.save(using=self._db)
         return user_obj
 
+alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(
-        max_length=255, null=True, blank=True, unique=True)
-    is_active = models.BooleanField(default=False)  # can login
+        max_length=255, null=True, blank=True, unique=True, validators=[alphanumeric])
+    is_active = models.BooleanField(default=True)  # can login
     is_staff = models.BooleanField(default=False)  # staff user non superuser
     is_admin = models.BooleanField(default=False)  # superuser
     date_joined = models.DateTimeField(
         verbose_name='date joined', auto_now_add=True, null=True, blank=True)
     last_login = models.DateTimeField(
         verbose_name='last login', auto_now=True, null=True, blank=True)
-    hide_email = models.BooleanField(default=True)
-    is_private_account = models.BooleanField(null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -122,6 +122,9 @@ class Profile(models.Model):
     website = models.URLField(null=True, blank=True)
     pincode = models.IntegerField(null=True, blank=True)
     bio = models.TextField(max_length=500, blank=True)
+    # hide user email, image, username, etc.
+    is_private_account = models.BooleanField(null=True, blank=True)
+
 
     def __str__(self):
         return f'{self.user.username}'

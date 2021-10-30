@@ -29,10 +29,6 @@
 
 <body>
 
-    <!-- logo -->
-    <div class="logo bg-dark text-light l-0 p-2">Sky</div>
-    <!-- logo -->
-
     
     <!-- navbar -->
     <ul class="nav nav-tabs bg-transparent border-0 justify-content-center sticky-top p-1" id=" myTab" role="tablist">
@@ -51,11 +47,12 @@
             <button class="nav-link bg-transparent shadow-sm" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
                 type="button" role="tab" aria-controls="profile" aria-selected="false" data-toggle=" tooltip"
                 title="profile">
-                <i class="fas fa-info-circle fa-lg" aria-hidden="true"></i> </button>
+                <i class="fad fa-user-secret"></i>
+            </button>
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link shadow-sm" href="{% url 'blog:post-create' %}" data-toggle=" tooltip" title="add new blog">
+            <a class="nav-link shadow-sm" href="{% url 'blog:create-new-blog' %}" data-toggle=" tooltip" title="add new blog">
                 <i class="fas fa-plus-circle fa-lg"></i></a>
         </li>
         <li class="nav-item">
@@ -79,6 +76,8 @@
         {% endif %}
     </ul>
 
+
+    
     <!-- messages -->
     <div class="container position-absolute">
         <div class="row justify-content-md-end">
@@ -90,8 +89,8 @@
                     <div class="icon">
                         <i class="fa fa-check"></i>
                     </div>
-                    <strong>blan--</strong>
-                    <strong>Success!</strong> 
+                    <strong>blan&#160; &#160;</strong>
+                    <strong>&#160; &#160; Success!</strong> 
                     {{ message }}
                     <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -100,7 +99,7 @@
                     <div class="icon">
                         <i class="fa fa-info-circle"></i>
                     </div>
-                    <strong>blan--</strong>
+                    <strong>blan &#160; &#160;</strong>
                     <strong>Hello!</strong> 
                     {{ message }}
                     <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -110,7 +109,7 @@
                     <div class="icon">
                         <i class="fa fa-warning"></i>
                     </div>
-                    <strong>blan--</strong>
+                    <strong>blan&#160;&#160;</strong>
                     <strong><i class="fas fa-exclamation-triangle text-warning"></i>!</strong> 
                     {{ message }}
                     <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -120,7 +119,7 @@
                     <div class="icon">
                         <i class="fa fa-times-circle"></i>
                     </div>
-                    <strong>blan--</strong>
+                    <strong>blan&#160;&#160;</strong>
                     <strong>Error!</strong> 
                     {{ message }}
                     <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -131,7 +130,7 @@
             </div>
         </div>  
     </div>
-        <!-- messages -->
+    <!-- messages -->
 
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -204,6 +203,9 @@
 
             </div>
         </div>
+         <!-- logo -->
+        <a href="{% url 'blog:home' %}" class="text-light logo p-2">Sky</a>
+        <!-- logo -->
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class='container mt-n2'>
                 {% block content %}{% endblock content %}

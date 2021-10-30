@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,18 +21,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wv$7zbahhz0q58di^-6fpd70w&0amt20ctz&=&8#3c632*^+-&'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000"
 ]
-
-
 
 # Application definition
 
@@ -129,6 +128,7 @@ USE_L10N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -142,7 +142,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# template extention
+# Template extention
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Redirect urls
@@ -153,15 +153,16 @@ ROOT_URLCONF = 'base.urls'
 # Custom User model
 AUTH_USER_MODEL = 'users.User'
 
-# Email user
+# Email dispatch
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
 
-# Resize image
+# Resize images
 DJANGORESIZED_DEFAULT_SIZE = [1024, 768]
 DJANGORESIZED_DEFAULT_QUALITY = 75
 DJANGORESIZED_DEFAULT_KEEP_META = True
@@ -169,14 +170,14 @@ DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
-# for displaying ERD of models
+# Displaying ERD of models
 GRAPH_MODELS = {
     'all_applications': True,
     'group_models': True,
 }
 
-# for hitcount
+# Views hitcount
 HITCOUNT_KEEP_HIT_ACTIVE = {'days': 1}
 
-# tags case insensitive
+# Tags case insensitive
 TAGGIT_CASE_INSENSITIVE = True

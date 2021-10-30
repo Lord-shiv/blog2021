@@ -61,17 +61,17 @@
                         <span class="text-muted ps-1">{{ post.created|date:"F d,Y"}}</span>
                     </div>
                     <div class="d-flex">
-                        <p class="text-uppercase fs5 my-3 fw-bolder"><a>{{ post.title|truncatewords:8 }}</a></p>
+                        <p class="fs5 my-3 fw-bolder text-uppercase"><a>{{ post.title|truncatewords:8 }}</a></p>
                         <span class="ms-auto justify-content-end pe-2 ps-1" style="white-space: nowrap;">
                             <span id="{{post.id}}" class="bookmark_coun text-muted">{{ post.get_bookmarks_count }}</span>
-                            {% if request.user.is_authenticated %}
+                            {% if user.is_authenticated %}
                                 {% if request.user not in post.bookmarks.all %}
                                     <button id="bookmark_add" class="bookmark" data-id="{{post.id}}"  title="bookmark post"><i class="far fa-bookmark fa-lg"></i></button>
                                 {% else %}
                                     <button id="bookmark_add" class="bookmark" data-id="{{post.id}}" title="bookmark post"><i class="fad fa-bookmark fa-lg"></i></button>
                                 {% endif %}
                             {% else %}
-                                <a href="{% url 'users:register' %}" id="bookmark_add" class="bookmark" title="bookmark post"><i class="far fa-bookmark fa-lg"></i></a>
+                                <a href="{% url 'users:register' %}" class="bookmark" title="bookmark post"><i class="far fa-bookmark fa-lg"></i></a>
                             {% endif %}
                         </span>
                     </div>
@@ -117,7 +117,7 @@
             </div>
             {% endfor %}
         </div>
-        <div class="col-lg-4 order-last mt-5 mb-3 ps-4">
+        <div class="col-lg-4 order-last mt-5 pt-2 mb-3 ps-4">
             <ul class="list-group">
             <span class="fs-4 mb-2 fw-bold text-capitalize">CATEGORIES</span>
             <div class="cats d-flex flex-column">

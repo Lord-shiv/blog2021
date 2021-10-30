@@ -24,7 +24,7 @@ from hitcount.views import HitCountMixin
 
 from .models import Post, Comment, Category
 from bootstrap_modal_forms.generic import BSModalCreateView
-from .forms import MPTTCommentForm, PostCreateForm
+from .forms import MPTTCommentForm, PostCreateFrom
 from users.models import Profile
 
 import datetime
@@ -275,20 +275,12 @@ def user_posts_view(request, pk):
     return render(request, 'blog/bookmarks.html', context)
 
 
-class PostCreateModal(LoginRequiredMixin, BSModalCreateView):
-    template_name = "blog/create_blog.html"
-    form_class = PostCreateForm
-
-
 class PostCreateView(LoginRequiredMixin, CreateView):
+    'success url should be the post user just created.'
     model = Post
-    fields = ['title', 'image', 'content']
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        messages.success(self.request, 'Post Created.')
-        return super().form_valid(form)
-
+    template_name = 'blog/create_blog.html'
+    form_class = PostCreateFrom
+    success_url = '/'
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

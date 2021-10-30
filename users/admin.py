@@ -10,15 +10,16 @@ class UserAdmin(BaseUserAdmin):
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
     date_hierarchy = 'date_joined'
+    actions = []
 
-    list_display = ('email', 'username', 'is_admin', 'is_staff', 'is_active', 'is_private_account',
+    list_display = ('email', 'username', 'is_admin', 'is_staff', 'is_active',
                     'date_joined', 'last_login',)
     list_filter = ('username',)
     fieldsets = (
         (None, {'fields': ('email', 'password',)}),
         ('Personal info', {'fields': ('username',)}),
         ('Permissions', {'fields': ('is_staff', 'is_active',
-                                    'hide_email',)}),
+        )}),
         ('Group Permissions', {
             'classes': ('collapse',),
             'fields': ('groups', 'user_permissions', )
@@ -38,11 +39,11 @@ class UserAdmin(BaseUserAdmin):
         return True
         # request.user.is_admin
 
-    def has_delete_permission(self, request, obj=None):
-        if request.user.groups.filter(name='staff').exists():
-            # staff can't delete users
-            return False
-        return obj
+    # def has_delete_permission(self, request, obj=None):
+    #     if request.user.groups.filter(name='staff').exists():
+    #         # staff can't delete users
+    #         return False
+    #     return obj
 
     def has_change_permission(self, request, obj=None):
         if request.user.groups.filter(name='staff').exists():

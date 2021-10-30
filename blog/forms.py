@@ -29,8 +29,15 @@ class MPTTCommentForm(forms.ModelForm):
         fields = ('body', 'parent')
 
 
-class PostCreateForm(forms.Form):
+class PostCreateFrom(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = "__all__"
+        fields = ['title', 'content', 'image', 'video', 'status', 'category', 'tags']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['tags'].widget.attrs['placeholder'] = 'e.g car, phone, book..'
+        self.fields['title'].widget.attrs['placeholder'] = 'post title here..'
+        self.fields['content'].widget.attrs['placeholder'] = 'detailed definition of your post title here.. '

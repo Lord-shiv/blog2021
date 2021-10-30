@@ -1,26 +1,200 @@
-from django.shortcuts import get_object_or_404
-from collections import UserList
+from django.core.exceptions import PermissionDenied
+from django.core.mail import EmailMessage
+from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required 
+from django.contrib.sites.shortcuts import get_current_site
 from django.http.response import HttpResponse
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.urls import reverse
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from . forms import RegistrationForm, UserForm, LogInForm, UserProfileForm
-from blog.models import Post
-from django.contrib.auth import logout
-from django.core.exceptions import PermissionDenied
-from django.contrib.auth import authenticate, login
 from django.views.generic.edit import CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from django.contrib.auth import get_user_model
-from . models import Profile
+from django.views import View
+from . forms import RegistrationForm, UserForm, LogInForm, UserProfileForm
+from . models import Profile, User
+from . utils import account_activation_token
+from blog.models import Post
+import re
+import json
+from django.db import transaction
 
 
-class SignUpView(CreateView):
-    form_class = RegistrationForm
-    success_url = '/user/login'
-    template_name = 'users/register.html'
+class SignUpView(View):
+    def get(self, request):
+        return render(request, 'users/register.html')
+    @transaction.atomic
+    def post(self, request):
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        context = {
+            'fieldValues': request.POST
+        }
+
+        if not User.objects.filter(username__iexact=username).exists():
+            if not User.objects.filter(email=email).exists():
+                if len(password) < 6:
+                    messages.error(request, 'Password too short')
+                    return render(request, 'users/register.html', context)
+                
+                user = User.objects.create_user(username=username, email=email, password=password)
+                user.set_password(password)
+                user.is_active = False
+                
+                # ------------>
+                # Email stuff
+                # ------------>
+                current_site = get_current_site(request)
+                email_subject = 'Activate your account from Sky'
+                email_body = {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                }
+                link = reverse('users:activate', kwargs={'uidb64': email_body['uid'], 'token': email_body['token']})
+                activate_url = 'http://'+current_site.domain+link
+                email = EmailMessage(
+                    email_subject,
+                    'hi '+ user.username + ', greetings from sky community! \n Please click the link below to activate your account. \n' + activate_url,
+                    'icanandiwill000@gmail.com',
+                    [email],
+                )
+                email.send(fail_silently=False)
+                print(f"user {username} saved!")
+                user.save()
+                messages.success(request, 'Account successfully created')
+                return render(request, 'users/confirm_link.html')
+        
+        return render(request, 'users/register.html')
+
+
+class VerificationView(View):
+    def get(self, request, uidb64, token, *args, **kwargs):
+        try:
+            id = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=id)
+
+            if not account_activation_token.check_token(user, token):
+                return redirect('login'+'?message='+'User already activated')
+            
+            if account_activation_token.check_token(user, token):
+                user.is_active = True
+                user.save()
+                messages.success(request, 'Account activated successfully')
+                return redirect('users:login')
+            
+            if not user.is_active:
+                user.is_active = True
+        
+
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+            messages.warning(request, 'The confirmation link was invalid, possibly because it has already been used.')
+            return redirect('users:register')
+
+
+        return redirect('users:login')
+
+class SignIn(View):
+
+    def get(self, request):
+        return render(request, 'users/login.html')
+
+    def post(self, request):
+        form = LogInForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+            if email and password:
+                user = authenticate(email=email, password=password)
+                print('user')
+                if user:
+                    if user.is_active:
+                        login(request, user)
+                        messages.info(request, f'Welcome back {user.username}!')
+                        return redirect('/')
+                    messages.error(request, 'Account is not active,please check your email')
+                    return render(request, 'users/login.html')
+
+                messages.error(request, 'Invalid credentials,try again')
+                return render(request, 'users/login.html')
+
+            messages.error(request, 'Please fill all fields')
+        return render(request, 'users/login.html')
+
+
+def log_in(request):
+    error = False
+    if request.method == "POST":
+        form = LogInForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+            user = authenticate(email=email, password=password)
+            print('user')
+            if user:
+                login(request, user)
+                messages.info(request, f'Welcome {user.username}! ')
+                return redirect('/')
+            else:
+                messages.error(request, 'Invalid credentials,try again')
+            return render(request, 'users/login.html')
+        messages.error(request, 'Invalid data')
+        return render(request, 'users/login.html')
+    else:
+        form = LogInForm()
+
+    return render(request, 'users/login.html', {'form': form, 'error': error})
+
+
+class SignOut(View):
+    def post(self, request):
+        logout(request)
+        messages.success(request, 'logged out')
+        return redirect('/')
+    
+    def get(self, request):
+        logout(request)
+        messages.success(request, 'logged out')
+        return redirect('/')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    messages.success(request, f'logged out.')
+    return redirect('/')
+
+
+class UsernameValidation(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        username = data['username']
+
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({'username_error': 'username already exists'}, status=409)
+
+        if not str(username).isalnum():
+            return JsonResponse({'username_error': 'username should only contain alphanumeric characters'}, status=400)
+        
+        return JsonResponse({'username_valid': True})
+
+class EmailValidation(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        email = data['email']
+
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({'email_error': 'email already exists'}, status=409)
+
+        if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
+            return JsonResponse({'email_error': 'entered email is not a valid email'}, status=400)
+        
+        return JsonResponse({'email_valid': True})
 
 
 @login_required
@@ -63,32 +237,6 @@ def followToggle(request, author):
     return HttpResponse(response, content_type="application/json")
 
 
-def log_in(request):
-    error = False
-    if request.user.is_authenticated:
-        return redirect('home')
-    if request.method == "POST":
-        form = LogInForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-            user = authenticate(email=email, password=password)
-            if user:
-                login(request, user)
-                messages.info(request, f'Welcome back {user.username}!')
-                return redirect('/')
-            else:
-                error = True
-    else:
-        form = LogInForm()
-
-    return render(request, 'users/login.html', {'form': form, 'error': error})
-
-
-def log_out(request):
-    logout(request)
-    return redirect(redirect('/home'))
-
 
 @login_required
 def profile_update_view(request):
@@ -110,12 +258,6 @@ def profile_update_view(request):
 
     return render(request, 'users/user_profile.html', context)
 
-
-@login_required
-def logout_view(request):
-    logout(request)
-    messages.success(request, f'logged out.')
-    return redirect('/')
 
 
 # @login_required

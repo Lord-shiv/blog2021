@@ -1,11 +1,12 @@
-{% extends "base.html" %}
+{% extends "base_WN.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="content-section">
+<legend class="m-4 p-3 h1 text-center text-gray">+Add new Blog</legend>
+
+<div class="content-section border p-5 rounded shadow border-info mb-5">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Blog Post</legend>
+        <fieldset class="">
             {{ form|crispy }}
 
         </fieldset>

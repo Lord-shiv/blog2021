@@ -2,85 +2,143 @@
 {% load crispy_forms_tags %}
 {% block content %}
 {% load static %}
-<div class="content-section">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Join Today</legend>
-            {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Sign Up</button>
+<style>
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  background-color: #0ebd42;
+  color: white;
+}
+
+.btn-google {
+  color: white !important;
+  background-color: #ea4335;
+  width: 100%;
+}
+
+.btn-facebook {
+  color: white !important;
+  background-color: #3b5998;
+  width: 100%;
+}
+
+
+.inputWithIcon {
+  position: relative;
+}
+
+.inputWithIcon i {
+  position: absolute;
+  right: 3px;
+  top: 1px;
+  padding: 9px 8px;
+  color: rgb(94, 94, 94);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+</style>
+
+
+
+      <div class="row mb-5 mt-5">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto p-2">
+          <div class="card border-0 shadow rounded-3 my-0">
+            <div class="card-body p-4 p-sm-5">
+              <h3 class="card-title text-center mb-3 fw-light fs-5">Register </h3>
+              <form action="{% url 'users:register' %}" method="post"> 
+                {% csrf_token %}
+                
+                <div class="form-floating mb-3">
+                  <div class="input-group">
+                    <div class="input-group-addon m-n1 p-2 ml-n3">
+                      <i class="fas fa-user"></i> &#160;
+                      </div>
+                      <input 
+                      type="text"
+                      class="form-control"
+                      name = "username"
+                      id="usernameField"
+                      placeholder="username"
+                      value="{{fieldValues.username}}"
+                      required
+                      >
+                  </div>
+                  <div class="invalidUsernameFeedback pl-4" style="display: none"><i class="fas fa-check-circle"></i>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <div class="input-group">
+                    <div class="input-group-addon m-n1 p-2 ml-n3">
+                      <i class="fas fa-envelope"></i> &#160;
+                      </div>
+                        <input 
+                        type="email"
+                        name="email"
+                        class="form-control" 
+                        id="emailField" 
+                        placeholder="email@example.com"
+                        value="{{fieldValues.email}}"
+                        required
+                        >
+                  </div>
+                  <div class="invalidEmailFeedback pl-4" style="display: none">
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <div class="input-group">
+                    <div class="input-group-addon m-n1 p-2 ml-n3">
+                      <i class="fas fa-lock-alt"></i> &#160;
+                      </div>
+                        <input 
+                        type="password"
+                        name="password"
+                        class="form-control rounded-right" 
+                        id="passwordField" 
+                        placeholder="Password"
+                        >
+                      <div class="inputWithIcon" id="showPassword">
+                        <i class="fas fa-eye"></i>
+                      </div>
+                  </div>
+                  <div class="invalidPasswordFeedback pl-5" style="display: none">
+                  </div>
+              </div>
+  
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
+                  <label class="form-check-label text-muted" for="rememberPasswordCheck">
+                    remember me
+                  </label>
+                </div>
+                <p class="text-muted small mt-n2 mb-3 text-center">Already have an account <a href="{% url 'users:login' %}">login  <i class="fas fa-caret-right"></i></a></p>
+                <div class="d-grid">
+                  <button class="btn btn-login text-uppercase fw-bold" Value="Register" type="submit">Sign
+                    up</button>
+                </div>
+                <hr class="my-4">
+                <div class="d-grid mb-2">
+                  <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
+                    <i class="fab fa-google me-2"></i> Sign up with Google
+                  </button>
+                </div>
+                <div class="d-grid">
+                  <button class="btn btn-facebook btn-login text-uppercase fw-bold" type="submit">
+                    <i class="fab fa-facebook-f me-2"></i> Sign up with Facebook
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-    </form>
-    <div class="border-top pt-3">
-        <small class="text-muted">Already Have An Account? <a class="ml-2" href="{% url 'users:login' %}">Sign In</a></small>
-    </div>
-</div>
-
-
-<div class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-4">
-    <div class="card mt-5">
-
-
-      <div class="card-body">
-        <div class="card-title py-3">
-          <h4>Register for a free account</h4>
-        </div>
-        <form action="{% url 'register' %}" method="post">
-          {% csrf_token %}
-
-          {% include 'partials/_messages.html' %}
-          <div class="form-group">
-            <input
-              type="text"
-              name="username"
-              placeholder="username"
-              id="usernameField"
-              value="{{fieldValues.username}}"
-              class="form-control form-control-sm"
-            />
-          </div>
-          <div class="invalid_feedback invalid-feedback" style="display:none">
-          </div>
-          <p class="text-sm text-success usernameSuccessOutput"></p>
-          <div class="form-group">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              class="form-control form-control-sm"
-              id="emailField"
-
-              value="{{fieldValues.email}}"
-            />
-          </div>
-
-          <div class="emailFeedBackArea invalid-feedback" style="display:none">
-          </div>
-          <div class="form-group">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              class="form-control form-control-sm"
-              id="passwordField"
-            />
-            <small class="float-right py-3 showPasswordToggle">SHOW</small>
-          </div>
-          <input type="submit" value="Register" class="btn btn-block btn-primary submit-btn" />
-        </form>
-
       </div>
 
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4"></div>
-</div>
 
-<script src="{% static 'js/register.js' %}"></script>
+  
+<script src="{% static 'js/auth/register.js' %}"></script>
 
 {% endblock content %}

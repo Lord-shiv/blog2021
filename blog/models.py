@@ -31,7 +31,7 @@ class Post(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-    title = models.CharField(max_length=100, null=True, blank=True)
+    title = models.CharField(max_length=100, null=False, blank=True)
     content = models.TextField(null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)

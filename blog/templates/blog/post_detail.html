@@ -30,11 +30,12 @@
         border-radius: 5px;
     }
     .blur-back-tab {
-        background-color: rgba(0, 0, 0, 0.384);
+        background-color: rgba(0, 0, 0, 0.413);
+
+        padding-top: 8px;
+        padding-bottom: 0px;
         width: fit-content;
         margin: auto;
-        padding-left: 8px;
-        padding-right: 8px;
         border-radius: 3px;
     }
 
@@ -121,13 +122,11 @@
     }
 
     .like-button {
-        color:red;
+        color:rgb(0, 255, 0);
         background: none;
         border: none;
         cursor: pointer;
         outline: none;
-        padding-top: 6px;
-        padding-bottom: 2px;
     }
 
     .like-button:focus {
@@ -139,13 +138,11 @@
     }
 
     .dislike-button {
-        color: #32cd32;
+        color: crimson;
         background: none;
         border: none;
         cursor: pointer;
         outline: none;
-        padding-top: 6px;
-        padding-bottom: 2px;
     }
 
     .dislike-button:focus {
@@ -162,8 +159,6 @@
         border: none;
         cursor: pointer;
         outline: none;
-        padding-top: 6px;
-        padding-bottom: 2px;
     }
 
     .bookmark:focus{
@@ -187,24 +182,36 @@
     }
 
     .badge {
-        border-radius: 50%/15%;
+        border-radius: 70%/70%;
         text-align: center;
-        padding: 2px 5px 2px 5px;
+        padding: 2px 5px 3px 5px;
     }
 
     .badge-blue {
         color: white;
-        background: red;
+        background: limegreen;
+        margin-left: -1px;
     }
 
     .badge-brown {
         color: white;
-        background: #32cd32;
+        background: crimson;
+        margin-left: -1px;
     }
 
     .badge-gold {
         color: white;
         background-color: rgb(220, 114, 0);
+        margin-left: -1px;
+    }
+
+    .reply {
+        background-color: rgb(50, 50, 50);
+        color: white;
+        padding: 0px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border-radius: 3px;
     }
 
 </style>
@@ -237,39 +244,39 @@
             </p>
             <p class="mb-0 blur-back mt-3"><small><i class="far fa-mug-hot fa-lg"></i> 10 min read..</small></p>
             
-            <p class="mt-3 blur-back-tab">
+            <p class="mt-5 blur-back-tab">
             <!-- like dislike -->
             {% if request.user.is_authenticated %}
                 {% if request.user not in object.upVotes.all %}
-                    <button id="like-button" class="like-button"  value={{object.id}}><i class="far fa-heart fa-2x"></i></button>
+                    <button id="like-button" class="like-button pl-0 pr-0"  value={{object.id}}> &nbsp; &nbsp;<i class="far fa-heart fa-2x"></i></button>
                 {% else %}
-                    <button id="like-button" class="like-button"  value={{object.id}}><i class="fad fa-heart fa-2x"></i></button>
+                    <button id="like-button" class="like-button pl-0 pr-0"  value={{object.id}}><i class="fad fa-heart fa-2x"></i></button>
                 {% endif %}
-                <span id="like_count" class="badge badge-blue square">{{ object.number_of_upVotes }}</span>
-
+                <span id="like_count" class="badge badge-blue square">{{ object.number_of_upVotes }}</span><span class="square text-uppercase"><small> likes</small></span>
+                
+                {% if request.user not in object.bookmarks.all %}
+                <button id="bookmark_add" class="bookmark pl-0 pr-0"  value={{object.id}}><i class="far fa-bookmark fa-2x"></i></button>
+                {% else %}
+                    <button id="bookmark_add" class="bookmark pl-0 pr-0"  value={{object.id}}><i class="fad fa-bookmark fa-2x"></i></button>
+                {% endif %}
+                <span id="bookmark_count" class="badge badge-gold square">{{ object.get_bookmarks_count }}</span><span class="square text-uppercase"><small> saved</small></span>
                 
                 {% if request.user not in object.downVotes.all %}
-                    <button id="dislike-button" class="dislike-button"  value={{object.id}}><i class="fal fa-heart-broken fa-2x"></i></button>
+                    <button id="dislike-button" class="dislike-button pl-0 pr-0"  value={{object.id}}><i class="fal fa-heart-broken fa-2x"></i></button>
                 {% else %}
-                    <button id="dislike-button" class="dislike-button"  value={{object.id}}><i class="fas fa-heart-broken fa-2x"></i></button>
+                    <button id="dislike-button" class="dislike-button pl-0 pr-0"  value={{object.id}}><i class="fas fa-heart-broken fa-2x"></i></button>
                 {% endif %}
-                <span id="dislike_count" class="badge badge-brown square">{{ object.number_of_downVotes }}</span>
+                <span id="dislike_count" class="badge badge-brown square">{{ object.number_of_downVotes }}</span>&nbsp; &nbsp;
                 <!-- dislike{{ object.number_of_downVotes|pluralize:"s"}} -->
 
-                {% if request.user not in object.bookmarks.all %}
-                    <button id="bookmark_add" class="bookmark"  value={{object.id}}><i class="far fa-bookmark fa-2x"></i></button>
-                {% else %}
-                    <button id="bookmark_add" class="bookmark"  value={{object.id}}><i class="fad fa-bookmark fa-2x"></i></button>
-                {% endif %}
-                <span id="bookmark_count" class="badge badge-gold square">{{ object.get_bookmarks_count }}</span>
 
             {% else %}
-                <a href="{% url 'users:register' %}" class="like-button"><i class="far fa-heart fa-2x"></i></a>
-                <span id="like_count" class="badge badge-blue square">{{ object.number_of_upVotes }}</span>
-                <a href="{% url 'users:register' %}" class="dislike-button"><i class="fal fa-heart-broken fa-2x"></i></a>
-                <span id="dislike_count" class="badge badge-brown square">{{ object.number_of_downVotes }}</span>
+                <a href="{% url 'users:register' %}" class="like-button">&nbsp; &nbsp;<i class="far fa-heart fa-2x"></i></a>
+                <span id="like_count" class="badge badge-blue square">{{ object.number_of_upVotes }}</span><span class="square text-uppercase"><small> likes</small></span>
                 <a href="{% url 'users:register' %}" id="bookmark_add" class="bookmark"><i class="far fa-bookmark fa-2x"></i></a>
-                <span id="bookmark_count" class="badge badge-gold square">{{ object.get_bookmarks_count }}</span>
+                <span id="bookmark_count" class="badge badge-gold square">{{ object.get_bookmarks_count }}</span><span class="square text-uppercase"><small> saved</small></span>
+                <a href="{% url 'users:register' %}" class="dislike-button"><i class="fal fa-heart-broken fa-2x"></i></a>
+                <span id="dislike_count" class="badge badge-brown square">{{ object.number_of_downVotes }}</span> &nbsp;&nbsp;
             {% endif %}
             </p>
         </div>
@@ -278,11 +285,10 @@
 
     <!-- For Demo Purpose -->
     <div class="container py-2">
-        <h2 class="h3 font-weight-bold">{{ object.title }}</h2>
+        <h2 class="h3 font-weight-bold text-dark">{{ object.title }}</h2>
         <div class="center">
          
-                <p class="font-italic text-muted">{{ object.content }}</p>
-
+                <p class="font-italic text-muted text-justify">{{ object.content }}</p>
         </div>
     </div>
 
@@ -317,12 +323,11 @@
                                 <ul class="root">
                                     {% recursetree comments %}
                                         <li> 
-                                            <div class="text-muted">{{ node.user}} :: {{ node.created }}</div>
+                                            <div class="text-muted"> <span class="text-primary">{{ node.user}}</span> | <small>{{ node.created }}</small></div>
                                             <br>
-                                            <p class="font-weight-light" id="{{ node.id }}">{{ node.body }}
-                                                {{ node.id }}</p>
+                                            <p class="" id="{{ node.id }}">{{ node.body }}</p>
                                             <hr>
-                                            <button class="button" onclick="myFunction({{ node.id }})">reply {{ node.id }}</button>
+                                            <button class="reply" onclick="myFunction({{ node.id }})">reply</button>
                                             <div class="thick" id="replies">
                                             {% if not node.is_leaf_node %}
                                                 <ul class="children">
@@ -382,13 +387,13 @@
                                     <select name="parent" class="d-none" id="id_parentt"> \
                                     <option value="' + id + '" selected="' + id + '"></option> \
                                     </select> \
-                                    <textarea name="body" cols="137" rows="1" class="form-control ml-1 shadow-none textarea" placeholder="Add new comment here.." maxlength="250" minlength="2" id="id_body"></textarea> \
-                                    <button id="close">close</button> \
+                                    <textarea name="body" cols="137" rows="1" class="form-control ml-1 shadow-none textarea" placeholder="Add reply" maxlength="250" minlength="2" id="id_body"></textarea> \
+                                    <button id="close" class="btn-sm btn-danger mt-2 float-right">close</button> \
                                     {% csrf_token %} \
-                                    <div class="text-right"><button class="btn btn-sm btn-primary" type="submit">Comment</button></div> \
+                                    <div class="text-right"><button class="btn btn-sm btn-primary mt-2" type="submit">Comment</button></div> \
                                     </form>');
     }
-    
+
     $('#myForm').trigger("reset");
 
     $(document).ready(function() {

@@ -417,16 +417,5 @@ body {
 
 
 /* LOGO ++++++++++++++++++++++++++++++++*/
-.logo {
-  position: absolute;
-  top: 48px;
-  left: 0;
-  background-color: #222;
-  margin-top: 2px;
-  font-size: 14px;
-  border-right: 3px solid darkorange;
-  z-index: 1;
-}
+
 /* LOGO ++++++++++++++++++++++++++++++++*/
-
-
