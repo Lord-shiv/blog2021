@@ -39,6 +39,17 @@
         border-radius: 3px;
     }
 
+    .blur-purp {
+        color: white;
+        background-color: rgba(93, 0, 255, 0.53);
+        width: fit-content;
+        margin: auto;
+        padding-bottom: 2px;
+        padding-right: 5px;
+        padding-left: 5px;
+        border-radius: 2px;
+    }
+
     .blur-blue {
         color: white;
         background-color: rgba(255, 0, 0, 0.747);
@@ -225,24 +236,16 @@
     <div style="background-image: url('{% static 'images/default3.png' %}');" class="jumbotron bg-cover text-white">
     {% endif %}
         <div class="container py-5 text-center justify-content-center">
-            {% if object.author == user.username %}
-            <div class="container update mt-3">
-                <small>
-                    <a class="text-light" href="{% url 'post-update' object.id %}">Update |</a>
-                    <a class="text-light" href="{% url 'post-delete' object.id %}">Delete</a>
-                </small>
-            </div>
-            {% endif %}
-            <h1 class="font-weight-bold p-1">Bootstrap static header</h1>
-            <p class="mb-0 blur-back"><small> <i class="far fa-calendar-alt fa-lg"></i> {{ object.created|date:"F d, Y" }} <i class="far fa-stopwatch fa-lg"></i> {{object.created|time}} </small></p>
+            <h1 class="font-weight-bold p-1 blur-back">Bootstrap static header</h1>
+            <p class="mb-0 blur-back mt-3"><small> <i class="far fa-calendar-alt fa-lg"></i> {{ object.created|date:"F d, Y" }} <i class="far fa-stopwatch fa-lg"></i> {{object.created|time}} </small></p>
+            <p class="mb-0 blur-back mt-3"><small><i class="far fa-mug-hot fa-lg"></i> 10 min read..</small></p>
             
-            <p class="text-dark mt-3">
+            <p class="text-dark mt-4">
                 <img src="{{ object.author.avatar.url }}" alt="John Doe" class="ml-n3 rounded-circle" style="width:45px;  border-top: 2.5px solid transparent; border-bottom: 2.5px solid transparent; padding: 5px;  border-left: 2.5px solid white; border-right: 2.5px solid white;">
                 <a href="{% url 'blog:user-posts' object.author_id %}" class="blur-blue">
                     <small> {{ object.author }} profile <i class="far fa-external-link-alt"></i></small>
                 </a>
             </p>
-            <p class="mb-0 blur-back mt-3"><small><i class="far fa-mug-hot fa-lg"></i> 10 min read..</small></p>
             
             <p class="mt-5 blur-back-tab">
             <!-- like dislike -->
@@ -250,7 +253,7 @@
                 {% if request.user not in object.upVotes.all %}
                     <button id="like-button" class="like-button pl-0 pr-0"  value={{object.id}}> &nbsp; &nbsp;<i class="far fa-heart fa-2x"></i></button>
                 {% else %}
-                    <button id="like-button" class="like-button pl-0 pr-0"  value={{object.id}}><i class="fad fa-heart fa-2x"></i></button>
+                    <button id="like-button" class="like-button pl-0 pr-0"  value={{object.id}}> &nbsp; &nbsp;<i class="fad fa-heart fa-2x"></i></button>
                 {% endif %}
                 <span id="like_count" class="badge badge-blue square">{{ object.number_of_upVotes }}</span><span class="square text-uppercase"><small> likes</small></span>
                 
@@ -279,6 +282,16 @@
                 <span id="dislike_count" class="badge badge-brown square">{{ object.number_of_downVotes }}</span> &nbsp;&nbsp;
             {% endif %}
             </p>
+
+            
+            <div class="container blur-back mt-3">
+                <small>
+                    <a class="text-light" href="{% url 'blog:blog-update' object.id %}">Update |</a>
+                    <a class="text-light" id="confirm-delete-post"  href="{% url 'blog:blog-delete' object.id %}">Delete</a>
+                </small>
+            </div>
+
+            <p class="mb-0 blur-purp mt-3 "><small><i class="fas fa-hashtag"></i> <strong>{{ object.category }}</strong></small></p>
         </div>
     </div>
     </div>
@@ -290,6 +303,10 @@
          
                 <p class="font-italic text-muted text-justify">{{ object.content }}</p>
         </div>
+    </div>
+
+    <div class="container">
+        {{ object.tags }}
     </div>
 
 
@@ -341,12 +358,12 @@
                                 <!-- yeas it is and yeas -->
                             </div>
                         <br>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
+</div>
 <!-- comments -->
 
 <!-- ajax comments -->
@@ -401,6 +418,12 @@
             $('#id_body').hide(800);
         });
     });
+
+
+    // confirm delete post
+    $(document).on('click', '#confirm-delete-post', function(){
+        return confirm('Are you sure to Delete this post?');
+    })
 
     // like posts
     $(document).on('click', '#like-button', function (e) {

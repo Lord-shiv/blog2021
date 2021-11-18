@@ -27,9 +27,323 @@
     
 </head>
 
-<body>
-
+<style>
     
+/*  ++++++++++++++++++++ */
+/* round progress in about ++++++++++++++++++++ */
+/*  ++++++++++++++++++++ */
+.progress{
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    background: none;
+    margin: 0 auto;
+    box-shadow: none;
+    position: relative;
+}
+.progress:after{
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 12px solid #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.progress > span{
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+.progress .progress-left{
+    left: 0;
+}
+.progress .progress-bar{
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 12px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+.progress .progress-left .progress-bar{
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+.progress .progress-right{
+    right: 0;
+}
+.progress .progress-right .progress-bar{
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+    animation: loading-1 1.8s linear forwards;
+}
+.progress .progress-value{
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background: #44484b;
+    font-size: 24px;
+    color: #fff;
+    line-height: 135px;
+    text-align: center;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+.progress.blue .progress-bar{
+    border-color: #049dff;
+}
+.progress.blue .progress-left .progress-bar{
+    animation: loading-2 1.5s linear forwards 1.8s;
+}
+.progress.violet .progress-bar{
+    border-color: lightsalmon;
+}
+.progress.violet .progress-left .progress-bar{
+    animation: loading-2 1.5s linear forwards 1.8s;
+}
+.progress.yellow .progress-bar{
+    border-color: #fdba04;
+}
+.progress.yellow .progress-left .progress-bar{
+    animation: loading-3 1s linear forwards 1.8s;
+}
+.progress.pink .progress-bar{
+    border-color: magenta;
+}
+.progress.pink .progress-left .progress-bar{
+    animation: loading-4 0.4s linear forwards 1.8s;
+}
+.progress.green .progress-bar{
+    border-color: lime;
+}
+.progress.green .progress-left .progress-bar{
+    animation: loading-5 1.2s linear forwards 1.8s;
+}
+@keyframes loading-1{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+}
+@keyframes loading-2{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(144deg);
+        transform: rotate(144deg);
+    }
+}
+@keyframes loading-3{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+}
+@keyframes loading-4{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(36deg);
+        transform: rotate(36deg);
+    }
+}
+@keyframes loading-5{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(126deg);
+        transform: rotate(126deg);
+    }
+}
+@media only screen and (max-width: 990px){
+    .progress{ margin-bottom: 20px; }
+}
+
+
+
+/*  ++++++++++++++++++++ */
+/* round progress in about ++++++++++++++++++++ */
+/*  ++++++++++++++++++++ */
+
+/*  ++++++++++++++++++++ */
+/* Search results ++++++++++++++++++++ */
+/*  ++++++++++++++++++++ */
+.s-card-margin {
+    margin-bottom: 1.875rem;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.s-card-title {
+  padding-left: 10px;
+  padding-top: 10px;
+  text-transform: uppercase;
+}
+
+.s-card {
+    border: 0;
+    box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -ms-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+}
+.s-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 1px solid #e6e4e9;
+    border-radius: 8px;
+}
+
+.s-card .s-card-header.no-border {
+    border: 0;
+}
+.s-card .s-card-header {
+    background: none;
+    padding: 0 0.9375rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+}
+.s-card-header:first-child {
+    border-radius: calc(8px - 1px) calc(8px - 1px) 0 0;
+}
+
+.widget-49 .widget-49-title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.widget-49 .widget-49-title-wrapper .widget-49-date-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #edf1fc;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-49 .widget-49-title-wrapper .widget-49-date-primary .widget-49-date-day {
+  color: #4e73e5;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.widget-49 .widget-49-title-wrapper .widget-49-date-primary .widget-49-date-month {
+  color: #4e73e5;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+
+.widget-49 .widget-49-title-wrapper .widget-49-date-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #ebf7ff;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-49 .widget-49-title-wrapper .widget-49-date-info .widget-49-date-day {
+  color: #36afff;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.widget-49 .widget-49-title-wrapper .widget-49-date-info .widget-49-date-month {
+  color: #36afff;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+
+.widget-49 .widget-49-title-wrapper .widget-49-meeting-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.widget-49 .widget-49-title-wrapper .widget-49-meeting-info .widget-49-pro-title {
+  color: #3c4142;
+  font-size: 14px;
+}
+
+.widget-49 .widget-49-title-wrapper .widget-49-meeting-info .widget-49-meeting-time {
+  color: #B1BAC5;
+  font-size: 13px;
+}
+
+
+
+.widget-49 .widget-49-meeting-action {
+  text-align: right;
+}
+
+.widget-49 .widget-49-meeting-action a {
+  text-transform: uppercase;
+}
+
+.btn-flash-border-primary:hover {
+    color: royalblue;
+}
+
+.btn-flash-border-primary:hover {
+    color: magenta;
+}
+.search-field:focus{
+    box-shadow: none;
+}
+
+
+</style>
+
+
+<body>
     <!-- navbar -->
     <ul class="nav nav-tabs bg-transparent border-0 justify-content-center sticky-top p-1" id=" myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -46,8 +360,8 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link bg-transparent shadow-sm" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
                 type="button" role="tab" aria-controls="profile" aria-selected="false" data-toggle=" tooltip"
-                title="profile">
-                <i class="fad fa-user-secret"></i>
+                title="about developer">
+                <i class="fad fa-user-secret fa-lg"></i>
             </button>
         </li>
         {% if user.is_authenticated %}
@@ -82,6 +396,7 @@
     <div class="container position-absolute">
         <div class="row justify-content-md-end">
             <div class="col-md-auto">
+
         {% if messages %}
             {% for message in messages %}
                 {% if message.tags == 'success' %}
@@ -109,7 +424,7 @@
                     <div class="icon">
                         <i class="fa fa-warning"></i>
                     </div>
-                    <strong>blan&#160;&#160;</strong>
+                    <strong>blan&#160; &#160;</strong>
                     <strong><i class="fas fa-exclamation-triangle text-warning"></i>!</strong> 
                     {{ message }}
                     <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -119,7 +434,7 @@
                     <div class="icon">
                         <i class="fa fa-times-circle"></i>
                     </div>
-                    <strong>blan&#160;&#160;</strong>
+                    <strong>blan&#160; &#160;</strong>
                     <strong>Error!</strong> 
                     {{ message }}
                     <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -136,71 +451,225 @@
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
             <div class="container mt-5 mb-5">
-                <div class="card" style="z-index: -1">
+                <div class="card" style="z-index: 1">
                     <div class="row g-2">
                         <div class="col-md-4">
-                            <div class="p-3 text-center border-end"> <img class="rounded-circle" style="width: 45%;"
+                            <div class="p-3 text-center"> <img class="rounded-circle" style="width: 45%;"
                                     src="https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png" />
                                 <h4 class="mt-2">Shivam Manswalia</h4> <span
                                     class="d-flex justify-content-center align-items-center"><small
-                                        class="margin-right mr-1">north India  </small> <i
+                                        class="margin-right mr-1">north India &nbsp; </small> <i
                                         class="ml-1 fa fa-location-circle text-success"></i></span> <span
-                                    class="address-content">Top mountains Himalya IND</span>
-                                <div class="content-aboutme mt-3 p-3">
-                                    <h1>About Me</h1> <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat.</span>
+                                    class="address-content">lordshiv0001@gmail.com</span>
+                                    <br>
+                                    <span><a href="{% static 'images/resume.jpg' %}" target="_blank">
+                                        see resume
+                                    </a></span>
+                                <div class="content-aboutme mt-3 p-3 mb-3">
+                                    <h1>About Me</h1> <span>Strong in designing and integrating with intuitive problem-solving skills. Proficient in PYTHON, DJANGO & JAVASCRIPT and Passionate about implementing, launching new projects.</span>
+                                </div>
+
+                                <div class="progress blue">
+                                    <span class="progress-left">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <div class="progress-value">90%</div>
+                                </div>
+                                <p><strong>HTML</strong></p>
+
+                                <div class="progress yellow">
+                                    <span class="progress-left">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <div class="progress-value">75%</div>
+                                </div>
+                                <p><strong>CSS</strong></p>
+
+                                <div class="progress violet">
+                                    <span class="progress-left">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <div class="progress-value">75%</div>
+                                </div>
+                                <p><strong>JS</strong></p>
+
+                                <div class="progress pink">
+                                    <span class="progress-left">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <div class="progress-value">75%</div>
+                                </div>
+                                <p><strong>Python</strong></p>
+
+                                <div class="progress green">
+                                    <span class="progress-left">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <div class="progress-value">75%</div>
+                                </div>
+                                <p><strong>C++</strong></p>
+
+                                <div class="progresse pink">
+                                    <div class="progresse-bar" style="width: 90%;">
+                                        <h3 class="progresse-title">communication skill</h3>
+                                        <div class="progresse-value">90%</div>
+                                    </div>
+                                </div>
+                                <div class="progresse yellow">
+                                    <div class="progresse-bar" style="width: 100%;">
+                                        <h3 class="progresse-title">Problem solver</h3>
+                                        <div class="progresse-value">99%</div>
+                                    </div>
+                                </div>
+                                <div class="progresse green">
+                                    <div class="progresse-bar" style="width: 70%;">
+                                        <h3 class="progresse-title">Team Player</h3>
+                                        <div class="progresse-value">70%</div>
+                                    </div>
+                                </div>
+                                <div class="progresse blue">
+                                    <div class="progresse-bar" style="width: 90%;">
+                                        <h3 class="progresse-title">Hardworking</h3>
+                                        <div class="progresse-value">90%</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="p-3">
-                                <div class="d-flex justify-content-between align-items-center"> <span
-                                        class="fw-bold text-dark"><h4>Portfolio</h4></span> <i
+                            <div class="p-3 border-start">
+                                <div class="d-flex justify-content-between text-justify align-items-center"> <span
+                                        class="fw-bold text-dark"><h5>Objective</h5></span> <i
                                         class="fa fa-search-plus text-dark"></i> </div>
-                                <div class="d-flex gap-2 mt-2">
-                                    <p>Professional artist Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi natus nobis consequatur eius nisi aspernatur ipsam error, iste voluptatum fugit, placeat totam, nostrum debitis non ut alias quas provident tempora!</p>
+                                <div class="d-flex gap-2 mt-2 text-justify">
+                                    <p class="pb-4" style="text-align: justify;">I am a graduate Interested in software development. I am currently not working but I have good professional experience in the field. I have been working with web development for more than a year now and I think this is the future I want. I am active and can help build projects with my knowledge and experience. I have created a few projects in the past where my motive was to learn things as far as I can.</p>
                                 </div>
+                                <div class="blockquote-footer pb-2">My long-term objective is to become a professional software engineer <cite title="Source Title">with successful work.</cite></div>
 
-                                <div class="portfolio-content mt-3">
-                                    <h4 class="dark-color mt-5">Skills</h4>
-                                    <div class="progress mt-4 shadow-sm">
-                                        <div class="progress-bar" role="progressbar" style="width: 85%;"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Python 85%</div>
+                                <h5>Philosophy</h5>
+                                <p class="font-italic pb-4" style="text-align: justify;">I have Good knowledge in this field, I think this industry is full of hope and good future, I have a huge respect for the professionals who got success in this industry. I think good knowledge gives one thrive in his work. </p>
+                                <h5>Social profiles</h5>
+                                <p class="pb-4" style="text-align: justify;">I personally think social profiles motivate us to be better of course when they are related to our work. I will mention two of my best social profiles which are popular and useful and are proof of my work and experience.</p>
+
+                                <footer class="blockquote-footer">git hub profile:
+                                    <cite title="Source Title"><a href="https://github.com/shivBoy77">https://github.com/shivBoy77</a></cite>
+                                </footer>
+                                <p class="pt-2"></p>
+                                <footer class="blockquote-footer">stack overflow profile:
+                                    <cite title="Source Title"><a href="https://stackoverflow.com/users/14078760/lord-shiv">https://stackoverflow.com/users/14078760/lord-shiv</a></cite>
+                                </footer>
+                                <p class="pb-2"></p>
+
+                                <h5>Samples of work</h5>
+                                <p class="pb-4" style="text-align: justify;">I have list of projects which I have worked on.</p>
+
+                                <footer class="blockquote-footer pb-4">Find Banks Django REST API with Angular <i class="fas fa-long-arrow-right"></i> it is a simple web application where you can find bank branches their location. Only Admin is able to add, update and delete things but User can search, sort, and go through pages to find bank branches. The purpose of the project was to get familiar with both technologies and get to know how both front-end and back-end work together. <br> you can visit the site -
+                                    <cite title="Source Title"><a href="http://branches-front-shiv.herokuapp.com/">http://branches-front-shiv.herokuapp.com/</a></cite>
+                                </footer>
+                                <footer class="blockquote-footer pb-4">Contacts Django REST API <i class="fas fa-long-arrow-right"></i> Contacts is another project I was doing with the Django rest framework to learn how the backend works. It was token-based authentication where the user has the ability to register, login, post, put, delete, patch, and get. It has also a clean user interface for front-end developers for further integration of the application. <br> you can visit the site -
+                                    <cite title="Source Title"><a href="https://contacto-shiv.herokuapp.com/">https://contacto-shiv.herokuapp.com/</a></cite>
+                                </footer>
+                                <footer class="blockquote-footer pb-4">Geo Location <i class="fas fa-long-arrow-right"></i>This project will allow you to search locations on a geographic map where <br> you can select two points, and then the result will be the distance in kilometers between those two points.</i>
+                                </footer>
+                                <footer class="blockquote-footer pb-4">Few open source contributions <i class="fas fa-long-arrow-right"></i> You can visit the repository -
+                                    <cite title="Source Title"><a href="https://github.com/shivBoy77/Django-Poll-App">https://github.com/shivBoy77/Django-Poll-App</a></cite>
+                                </footer>
+                                <p class="pb-1"></p>
+
+                                <h5>Activity log</h5>
+
+                                <!-- log activity -->
+
+                                    <div class="row gutters p-2">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <!-- Timeline start -->
+                                    <div class="timeline">
+                                        <div class="timeline-row">
+                                            <div class="timeline-time">
+                                                23, April 2017-19<small>10:12 AM</small>
+                                            </div>
+                                            <div class="timeline-dot fb-bg"></div>
+                                            <div class="timeline-content">
+                                                <i class="fas fa-user-graduate"></i>
+                                                <h4>Graduation</h4>
+                                                <p>Stepping Into programming was a good experience. C, C++, and .Net what I learned in my graduating years. Python on my own.</p>
+                                                <div class="">
+                                                    <span class="badge badge-light">Student</span>
+                                                    <span class="badge badge-light">shivam</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-row">
+                                            <div class="timeline-time">
+                                                23, September 2019<small>12:00 AM</small>
+                                            </div>
+                                            <div class="timeline-dot green-one-bg"></div>
+                                            <div class="timeline-content green-one">
+                                                <i class="fas fa-trophy"></i>
+                                                <h4>1st Project</h4>
+                                                <p>
+                                                    Final year project (2019) simple blog application with AWS services and Django. Trying to get a good grasp on the django.</p>
+                                                <div class="">
+                                                    <span class="badge badge-light">builder</span>
+                                                    <span class="badge badge-light">shivam</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-row">
+                                            <div class="timeline-time">
+                                                28, january 2020<small>12:45 AM</small>
+                                            </div>
+                                            <div class="timeline-dot green-two-bg"></div>
+                                            <div class="timeline-content green-two">
+                                                <i class="fa fa-list"></i>
+                                                <h4>Mission Developer</h4>
+                                                <p>Working with Django API backend, frontend,  improving HTML, CSS, JS & Python. Learning algorithms, techniques  & patterns to find better solutions. </p>
+                                                <div>
+                                                    <span class="badge badge-light">learner</span>
+                                                    <span class="badge badge-light">shivam</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-row">
+                                            <div class="timeline-time">
+                                                Current date<small>00:00 AM</small>
+                                            </div>
+                                            <div class="timeline-dot green-three-bg"></div>
+                                            <div class="timeline-content green-three">
+                                                <i class="fas fa-fighter-jet"></i>
+                                                <h4>Constant Upgrades</h4>
+                                                <p>
+                                                    Engaging more and more continues building projects on top of my knowledge, plus getting better and better every day.
+                                                </p>
+                                                <div>
+                                                    <span class="badge badge-light">better</span>
+                                                    <span class="badge badge-light">shivam</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <br>
-                                    <div class="progress shadow-sm">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Django 75%</div>
+                                    <!-- Timeline end -->
                                     </div>
-                                    <br>
-                                    <div class="progress shadow-sm">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 55%;"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">C++ 35%</div>
                                     </div>
-                                    <br>
-                                    <div class="progress shadow-sm">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 45%;"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">2 years</div>
-                                    </div>
-                                </div>
-                                <div class="mt-4 mb-2">
-                                    <h5>Area of Expertise</h5>
-                                    <div class=""> <span class="badge bg-dark mb-1">Vegetable</span> <span
-                                            class="badge bg-dark">Primary</span> <span
-                                            class="badge bg-dark">Primary</span> <span
-                                            class="badge bg-dark">Primary</span> <span
-                                            class="badge bg-dark">Primary</span> <span
-                                            class="badge bg-dark">Primary</span> <span
-                                            class="badge bg-dark">Primary</span> <span class="badge bg-danger mb-1">Dry
-                                            Fruits</span>
-                                    </div>
-                                </div>
+                                <!-- log activity -->
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
          <!-- logo -->
@@ -213,85 +682,31 @@
         </div>
         <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="search-tab">
             <div class="container mb-5">
-                <div class="row d-flex justify-content-center">
-                    <header class="d-flex justify-content-center">
-                        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                            <span class="fs-2 mt-2">Search Blogs</span>
-                        </a>
-                    </header>
-                    <form method='GET' action="." class="row g-3">
-                        <div class="col-12">
-                            <div class="inputWithIcon">
-                                <input type="text" class="form-control  " placeholder="Title contains.."
-                                    name="title_contains">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <div class="col-12  ">
-                            <div class="inputWithIcon">
-                                <input type="text" class="form-control  " placeholder="ID exact.." name="id_exact">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <div class="col-12  ">
-                            <div class="inputWithIcon">
-                                <input type="text" class="form-control  " placeholder="Title or Author.."
-                                    name="title_or_author">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="viewCountMin" class="form-label">Minimum View Count</label>
-                            <input type="number" min=0 class="form-control" name="view_count_min">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="viewCountMax" class="form-label">Maximum View Count</label>
-                            <input type="number" min=0 class="form-control" name="view_count_max">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="category" class="form-label">Category</label>
-                            <select id="category" class="form-select" name="category">
-                                {% for cat in category %}
-                                <option value="{{ cat }}">{{ cat }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="publishDateMin" class="form-label">Publish Date Minimum</label>
-                            <input type="date" class="form-control" name="date_min">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="publishDateMax" class="form-label">Publish Date Maximum</label>
-                            <input type="date" class="form-control" name="date_max">
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="reviewed" name="reviewed">
-                                <label class="form-check-label" for="reviewed">
-                                    Reviewed
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="notReviewed" name="notReviewed">
-                                <label class="form-check-label" for="reviewed">
-                                    Not Reviewed
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-12 p-2">
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Advance Search</button>
-                        </div>
-                    </form>
+
+                <div class="p-3 mt-4">
+                    <h3 class="text-center mb-0"> <i class="fab fa-searchengin"></i> SEARCH <i class="fas fa-long-arrow-alt-right"></i></h3>
+                    <p class="font-weight-normal text-center text-muted"><small>search by author, blot title & text, categories, tag names etc. </small></p>
+
+                    <div class="row d-flex justify-content-center">
+                           <input type="text" class="form-control search-field border border-bottom-0 border-primary bg-light text-center border-3 p-2" placeholder="enter search keywords here" id="a-search-id">
+                       </div>
+                        <p class="font-weight-normal text-center s-results-head m-1"></p>
+                        <p class="font-weight-normal text-center mt-3 mb-3"><i class='fas fa-sort-down'></i></p>
+                        <div class="row search-results">
+                           <div class="col-lg-4">
+                           
+                           </div>
+                       </div>
                 </div>
-            </div>
+
+
         </div>
     </div>
     <!-- navbar -->
 
 </body>
+  
+<script src="{% static 'js/blog/search.js' %}"></script>
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
     integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"

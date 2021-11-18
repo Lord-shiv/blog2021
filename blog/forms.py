@@ -29,7 +29,7 @@ class MPTTCommentForm(forms.ModelForm):
         fields = ('body', 'parent')
 
 
-class PostCreateFrom(forms.ModelForm):
+class PostCreateForm(forms.ModelForm):
 
     class Meta:
         model = Post

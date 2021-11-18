@@ -123,8 +123,11 @@ class SignIn(View):
 
                 messages.error(request, 'Invalid credentials,try again')
                 return render(request, 'users/login.html')
-
+            
             messages.error(request, 'Please fill all fields')
+            return render(request, 'users/login.html')
+
+        messages.error(request, 'invalid input, Please fill carefully!')
         return render(request, 'users/login.html')
 
 
@@ -144,8 +147,9 @@ def log_in(request):
             else:
                 messages.error(request, 'Invalid credentials,try again')
             return render(request, 'users/login.html')
-        messages.error(request, 'Invalid data')
-        return render(request, 'users/login.html')
+        else:
+            messages.error(request, 'Invalid data')
+            return render(request, 'users/login.html')
     else:
         form = LogInForm()
 
@@ -199,11 +203,12 @@ class EmailValidation(View):
 
 @login_required
 def profile_view(request):
-    return render(request,
-                  'users/user_profile.html')
+    print('funky one one')
+    return render(request, 'users/user_profile.html')
 
 
 class PublicDetailView(DetailView):
+    '''working one'''
     model = Profile
     template_name = 'users/public_profile.html'
 
@@ -212,7 +217,25 @@ class PublicDetailView(DetailView):
         return context
 
 
+@login_required('login')
+def follow_toggle(request):
+    '''follow and don't follow user'''
+    if request.POST.get('action') == 'post':
+        id_ = int(request.POST.get('id'))
+        user_profile = get_object_or_404(Profile, id=id_)
+        user_followers = user_profile.following.all()
+        user = request.user
+
+        if user in user_followers:
+            user_profile.following.remove(user)
+        user_profile.following.add(user)
+
+        return JsonResponse({'follow_count': user_followers.count()})
+
+
+
 def public_profile(request, username):
+    print('funky one')
     user = get_object_or_404(User, username=username)
     return render(request, 'users/public_profile.html', {'profile': user})
 
@@ -234,8 +257,7 @@ def followToggle(request, author):
     }
 
     response = json.dumps(resp)
-    return HttpResponse(response, content_type="application/json")
-
+    return HttpResponse(response, content_type="application/json")    
 
 
 @login_required

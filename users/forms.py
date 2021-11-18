@@ -156,12 +156,12 @@ class UserProfileForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'mobile', 'country', 'avatar', 'address', 'gender',
                   'date_of_birth', 'pincode', 'website', 'bio']
         widgets = {
-            'first_name': forms.TextInput(attrs={'placeholder': 'your first name'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'your last name'}),
-            'email': forms.EmailInput(attrs={'placeholder': 'you emai@gmail.com'}),
-            'mobile': forms.NumberInput(attrs={'placeholder': 'your mobile number'}),
-            'country': forms.TextInput(attrs={'placeholder': 'country you where you live'}),
-            'address': forms.TextInput(attrs={'placeholder': 'your address where you live'}),
+            'first_name': forms.TextInput(attrs={'placeholder': 'first name'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'last name'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'youremai@gmail.com'}),
+            'mobile': forms.NumberInput(attrs={'placeholder': 'mobile number'}),
+            'country': forms.TextInput(attrs={'placeholder': 'your country name'}),
+            'address': forms.TextInput(attrs={'placeholder': 'address'}),
             'pincode': forms.TextInput(attrs={'placeholder': 'pincode'}),
             'bio': forms.TextInput(attrs={'placeholder': 'about you'}),
             'website': forms.TextInput(attrs={'placeholder': 'your website url e.g. https://your_website.com'}),

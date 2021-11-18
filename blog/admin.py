@@ -8,7 +8,7 @@ admin.site.register(Category)
 
 # https://django-taggit.readthedocs.io/en/latest/admin.html
 # fieldsets = (
-#     (None, {'fields': ('tags',)}),
+#     (None, {'fields': ('tags',)}), tags__name
 # )
 
 # class MyModelAdmin(admin.ModelAdmin):

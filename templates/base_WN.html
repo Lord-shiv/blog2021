@@ -34,125 +34,50 @@
  
 /* notifications +++++++++++++++++++++++ */
 
-.alert {
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.11);
-  display: table;
-  padding: 8px 5px;
-  width: 100%;
+.alert-error {
+  background-color: white;
+  border-left: 6px solid #dc3545;
+  padding: 7px;
+  color: #222222;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
 }
 
-.alert-white {
-  background-image: linear-gradient(to bottom, #fff, #f9f9f9);
-  border-top-color: #d8d8d8;
-  border-bottom-color: #bdbdbd;
-  border-left-color: #cacaca;
-  border-right-color: #cacaca;
-  color: #404040;
-  padding-left: 61px;
-  position: relative;
-}
-
-.alert-white.rounded {
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-}
-
-.alert-white.rounded .icon {
-  border-radius: 3px 0 0 3px;
-  -webkit-border-radius: 3px 0 0 3px;
-}
-
-.alert-white .icon {
-  text-align: center;
-  width: 45px;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 1px solid #bdbdbd;
-  padding-top: 15px;
-}
-
-
-.alert-white .icon:after {
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  transform: rotate(45deg);
-  display: block;
-  content: '';
-  width: 10px;
-  height: 10px;
-  border: 1px solid #bdbdbd;
-  position: absolute;
-  border-left: 0;
-  border-bottom: 0;
-  top: 50%;
-  right: -6px;
-  margin-top: -3px;
-  background: #fff;
-}
-
-.alert-white .icon i {
-  font-size: 20px;
-  color: #fff;
-  left: 12px;
-  margin-top: -10px;
-  position: absolute;
-  top: 50%;
-}
-/*============ colors ========*/
 .alert-success {
-  color: #3c763d;
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-}
-
-.alert-white.alert-success .icon, 
-.alert-white.alert-success .icon:after {
-  border-color: #54a754;
-  background: #60c060;
-}
-
-.alert-info {
-  background-color: #d9edf7;
-  border-color: #98cce6;
-  color: #3a87ad;
-}
-
-.alert-white.alert-info .icon, 
-.alert-white.alert-info .icon:after {
-  border-color: #3a8ace;
-  background: #4d90fd;
-}
-
-
-.alert-white.alert-warning .icon, 
-.alert-white.alert-warning .icon:after {
-  border-color: #d68000;
-  background: #fc9700;
+  background-color: white;
+  color: #222222;;
+  border-left: 6px solid #28a745;
+  padding: 7px;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
 }
 
 .alert-warning {
-  background-color: #fcf8e3;
-  border-color: #f1daab;
-  color: #c09853;
+  background-color: white;
+  color: #222222;;
+  border-left: 6px solid #ffc107;
+  padding: 7px;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
 }
 
-.alert-danger {
-  background-color: #f2dede;
-  border-color: #e0b1b8;
-  color: #b94a48;
+.alert-info {
+  background-color: white;
+  color: #222222;;
+  border-left: 6px solid #007bff;
+  padding: 7px;
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
 }
 
-.alert-white.alert-danger .icon, 
-.alert-white.alert-danger .icon:after {
-  border-color: #ca452e;
-  background: #da4932;
+.close :focus{
 }
+
+
 /* notifications ++++++++++++++++++++ */
 
 .logo {
@@ -178,25 +103,25 @@
                     {% for message in messages %}
                         {% if message.tags == 'success' %}
                         <div class="alert alert-{{ message.tags }} rounded w-auto" style="z-index: 2;margin-left: 35px; position: fixed;">
-                          <strong class="default"><i class="fas fa-times-circle"></i></strong> 
+                          <strong class="default"><i class="fas fa-check-circle text-success"></i></strong> 
                           {{ message }}
                           <button type="button" class="close pl-1 pr-1 mt-n1" data-dismiss="alert" aria-hidden="true">×</button>
                         </div>
                         {% elif message.tags == 'info' %}
                         <div class="alert alert-{{ message.tags }} rounded w-auto" style="z-index: 2;margin-left: 35px; position: fixed;">
-                          <strong class="default"><i class="fas fa-info-circle"></i><i class="far fa-grin-alt"></i> </strong> 
+                          <strong class="default"><i class="fas fa-info-circle text-primary"></i><i class="far fa-grin-alt"></i> </strong> 
                           {{ message }}
                           <button type="button" class="close pl-1 pr-1 mt-n1" data-dismiss="alert" aria-hidden="true">×</button>
                         </div>
                         {% elif message.tags == 'warning' %}
                         <div class="alert alert-{{ message.tags }} rounded w-auto" style="z-index: 2;margin-left: 35px; position: fixed;">
-                          <strong class="default"><i class="fas fa-exclamation-triangle"></i></strong> 
+                          <strong class="default"><i class="fas fa-exclamation-triangle text-warning"></i></strong> 
                           {{ message }}
                           <button type="button" class="close pl-1 pr-1 mt-n1" data-dismiss="alert" aria-hidden="true">×</button>
                         </div>    
                         {% elif message.tags == 'error' %}
                         <div class="alert alert-{{ message.tags }} rounded w-auto" style="z-index: 2;margin-left: 35px; position: fixed;">
-                          <strong class="default"><i class="fas fa-times-circle"></i></strong> 
+                          <strong class="default"><i class="fas fa-times-circle text-danger"></i></strong> 
                           {{ message }}
                           <button type="button" class="close pl-1 pr-1 mt-n1" data-dismiss="alert" aria-hidden="true">×</button>
                         </div>
@@ -215,8 +140,11 @@
     {% if user.is_authenticated %}
     <ul class="nav bg-transparent justify-content-end postion-absolute fixed-top mr-5" style="z-index: 1;">
       <li class="nav-item bg-none">
-          <a class="nav-linkactive text-dark shadow" href="{% url 'users:profile-update' %}"><i class="fas fa-user fa-lg text-dark"  
-            style=" border: 2px solid rgb(34, 43, 46);
+          <a class="nav-linkactive text-dark" href="{% url 'users:profile-update' %}"><i class="fas fa-user-circle"
+            style=" font-size: 1.9em;
+            color: royalblue;
+            background: none !important;
+            border: 1px solid rgb(205, 205, 205);
             padding: 4px;
             border-radius: 20%;
             margin-top: 9px;"></i></a>

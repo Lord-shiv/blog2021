@@ -72,13 +72,16 @@ class Post(models.Model):
         return Post.objects.filter(category_id=self.category_id).exclude(pk=self.pk)
 
     def get_post_author(self):
-        return self.author.username
+        return self.author.user.username
 
     def upload_image(self, filename):
         return 'post/{}/{}'.format(self.title, filename)
 
     def number_of_upVotes(self):
         return self.upVotes.count()
+
+    def get_names_of_tags(self):
+        return self.tags.name()
 
     def number_of_downVotes(self):
         return self.downVotes.count()

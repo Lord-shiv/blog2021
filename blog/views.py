@@ -1,33 +1,25 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.views.generic.edit import FormMixin, FormView
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView
-)
-# views 1st one for classbasedview
+from django.db.models.functions import ExtractDay, ExtractMonth, ExtractQuarter, ExtractWeek, ExtractWeekDay, ExtractIsoYear, ExtractYear, TruncMonth
+from django.db.models import Q, F
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 from hitcount.utils import get_hitcount_model
 from hitcount.views import HitCountMixin
-
-
-
-from .models import Post, Comment, Category
 from bootstrap_modal_forms.generic import BSModalCreateView
-from .forms import MPTTCommentForm, PostCreateFrom
+from .forms import MPTTCommentForm, PostCreateForm
+from .models import Post, Comment, Category
 from users.models import Profile
-
+from taggit.models import Tag
 import datetime
+import json
 
 
 def is_valid_query_param(param):
@@ -66,51 +58,14 @@ class PostListView(ListView):
         # context['most_related'] = most_related
         qs = Post.objects.all()
         categories = Category.objects.all()
-        title_contains_query = self.request.GET.get('title_contains')
-        id_exact_query = self.request.GET.get('id_exact')
-        title_or_author_query = self.request.GET.get('title_or_author')
-        view_count_min = self.request.GET.get('view_count_min')
-        view_count_max = self.request.GET.get('view_count_max')
-        date_min = self.request.GET.get('date_min')
-        date_max = self.request.GET.get('date_max')
-        category = self.request.GET.get('category')
-        reviewed = self.request.GET.get('reviewed')
-        not_reviewed = self.request.GET.get('notReviewed')
+        tags = Tag.objects.all()
+       
 
-        if is_valid_query_param(title_contains_query):
-            qs = qs.filter(title__icontains=title_contains_query)
-
-        elif is_valid_query_param(id_exact_query):
-            qs = qs.filter(id=id_exact_query)
-
-        elif is_valid_query_param(title_or_author_query):
-            qs = qs.filter(Q(title__icontains=title_or_author_query) |
-                           Q(author__name__icontains=title_or_author_query)).distinct()
-
-        if is_valid_query_param(view_count_min):
-            qs = qs.filter(views__gte=view_count_min)
-
-        if is_valid_query_param(view_count_max):
-            qs = qs.filter(views__lte=view_count_max)
-
-        if is_valid_query_param(date_min):
-            qs = qs.filter(publish_date__gte=date_min)
-
-        if is_valid_query_param(date_max):
-            qs = qs.filter(publish_date__lte=date_max)
-
-        if is_valid_query_param(category) and category != 'choose..':
-            qs = qs.filter(categories__name=category)
-
-        if reviewed == 'on':
-            qs = qs.filter(reviewed=True)
-
-        elif not_reviewed == 'on':
-            qs = qs.filter(reviewed=False)
 
         context = {
             'queryset': qs,
-            'categories': categories
+            'categories': categories,
+            'tags': tags
         }
 
         return context
@@ -279,24 +234,30 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     'success url should be the post user just created.'
     model = Post
     template_name = 'blog/create_blog.html'
-    form_class = PostCreateFrom
+    form_class = PostCreateForm
     success_url = '/'
 
-
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Post
-    fields = ['title', 'image', 'content']
-
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        messages.success(self.request, 'Post Updated.')
+        self.object = form.save(commit=False)
+        form.instance.author = self.request.user.profile
+        self.object.save()
         return super().form_valid(form)
 
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user == post.author:
-            return True
-        return False
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content', 'image', 'video', 'status', 'tags']
+    template_name = 'blog/create_blog.html'
+    success_url = "/"
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' takes in the request and ultimately returns the response
+            middleman between requests and responses.
+        '''
+        obj = self.get_object()
+        if obj.author.id != self.request.user.id:
+            raise Http404("you are not allowed to edit this post!")
+        return super(PostUpdateView, self).dispatch(request, *args, **kwargs)
+    
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -305,6 +266,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_message = "Post deleted."
 
     def test_func(self):
+        ''' userPassesTestMi... uses this func'''
         post = self.get_object()
         if self.request.user == post.author:
             return True
@@ -313,6 +275,25 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
+        
+@login_required
+def delete_post(request, pk):
+    '''this one is in use'''
+    post = Post.objects.get(id=pk)
+    slug = post.slug
+    auth = post.author
+    author = str(auth)
+    if author == request.user.username:
+        post.delete()
+        messages.success(request, 'post delete successfully')
+        context = {
+            'auth': auth
+        }
+        return redirect('/', context)
+    else:
+        messages.error(request, 'Unauthorised request.')
+        return redirect(f'/post/{slug}'+'/')
+
 
 
 def about(request):
@@ -322,15 +303,70 @@ def about(request):
 # added for search
 
 def search(request):
+    return render(request, 'blog/search_results.html')
 
-    query = request.GET.get('q')
-    if query:
-        queryset = (Q(title__icontains=query) |
-                    Q(image__icontains=query) |
-                    Q(author__username__icontains=query) |
-                    Q(created__icontains=query) |
-                    Q(content__icontains=query))
-        results = Post.objects.all().filter(queryset).distinct()
-    else:
-        results = []
-    return render(request, 'blog/search_results.html', {'results': results, 'query': query})
+# def ajax_search(request):
+#     ''' '''
+#     if request.is_ajax():
+#         print('is json req')
+#         res = None
+#         posts = request.POST.get('searchText')
+#         print(posts)
+#         qs = Post.objects.filter(title__icontains=posts)
+#         if len(qs) > 0 and len(posts):
+#             data = []
+#             print(data)
+#             for pos in qs:
+#                 item = {
+#                     'pk': pos.pk,
+#                     'name': pos.title,
+#                     'author': pos.author,
+#                     'category': post.category,
+#                     'tags': post.tags,
+#                     # 'image': str(pos.image.url)
+#                 }
+#                 data.append(item)
+#             res = data
+#         else:
+#             res = 'No results found ...'
+#         return JsonResponses({'data': posts})
+#     print('not json req')
+#     return JsonResponse({})
+   
+
+def ajax_search(request):
+    if request.method == 'POST':
+        search_str = json.loads(request.body).get('searchText')
+        authors = Profile.objects.filter(user__username__icontains=search_str).values()
+        category = Category.objects.filter(name__icontains=search_str).values()
+        tags = Tag.objects.filter(name__icontains=search_str).values()
+
+        all_fields = [f.name for f in Post._meta.get_fields()]  #Post._meta.get_fields()
+        '''after this put all_fields in values(*all_fields) the problem is it's giving too much fields '''
+        # fields = tuple(x.name for x in Expense._meta.get_fields()) #** tuple **++>> lFI
+
+        if search_str:
+            a_results = (Post.objects.filter(
+                title__icontains=search_str) | Post.objects.filter(
+                created__icontains=search_str) | Post.objects.filter(
+                tags__name__contains=search_str) | Post.objects.filter(
+                category__name__icontains=search_str) | Post.objects.filter(
+                author__user__username__icontains=search_str)).values(author__user__username=F("author__user__username"), content__=F("content"), title__=F('title'),
+                                                                        category__name_=F("category__name"), tags__name=F("tags__name"),
+                                                                        created_at__month=ExtractMonth('created'), created_at__date=ExtractDay('created'),
+                                                                        created_at__year=ExtractYear('created'))
+            data = list(a_results)
+            return JsonResponse(data, safe=False)
+        print("Here you go +++++++++++++++++++>>>>> ")
+        return JsonResponse(data=[], safe=False)
+
+
+# if query:
+    #         queryset = (Q(title__icontains=query) |
+#                     Q(author__username__icontains=query) |
+#                     Q(created__icontains=query) |
+#                     Q(content__icontains=query))
+#         results = Post.objects.all().filter(queryset).distinct()
+#     else:
+#         results = []
+#     return render(request, 'blog/search_results.html', {'results': results, 'query': query})
