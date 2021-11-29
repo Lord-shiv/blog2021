@@ -95,14 +95,14 @@
                       <i class="fas fa-lock-alt"></i> &#160;
                       </div>
                         <input 
-                        type="password"
-                        name="password"
-                        class="form-control rounded-right" 
-                        id="passwordField" 
-                        placeholder="Password"
+                        id="password-field" 
+                        type="password" 
+                        class="form-control" 
+                        name="password" 
+                        value="secret"
                         >
                       <div class="inputWithIcon" id="showPassword">
-                        <i class="fas fa-eye"></i>
+                        <span toggle="#password-field" class="fa fa-eye field-icon bg-light border border-left-0 btn toggle-password rounded-0 text-secondary" style="padding-left:2px; padding-right: 2px; padding-top: 10px; padding-bottom: 10px;"></span>
                       </div>
                   </div>
                   <div class="invalidPasswordFeedback pl-5" style="display: none">
@@ -115,7 +115,7 @@
                     remember me
                   </label>
                 </div>
-                <p class="text-muted small mt-n2 mb-3 text-center">Already have an account <a href="{% url 'users:login' %}">login  <i class="fas fa-caret-right"></i></a></p>
+                <p class="text-muted small mt-n2 mb-3 text-center">Already have an account <a href="{% url 'users:login' %}">LOGIN  <i class="fas fa-caret-right"></i></mark></a></p>
                 <div class="d-grid">
                   <button class="btn btn-login text-uppercase fw-bold" Value="Register" type="submit">Sign
                     up</button>

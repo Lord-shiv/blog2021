@@ -117,6 +117,8 @@ class Profile(models.Model):
     mobile = models.CharField(max_length=15, null=True, blank=True)
     # from phonenumber_field.modelfields import PhoneNumberField
     # phonenumber = PhoneNumberField(blank=True)
+    # location = models.charField(max_length=150, null=True, blank=True)
+    # language = models.charField(max_length=150, null=True, blank=True)
     country = models.CharField(max_length=150, null=True, blank=True)
     address = models.CharField(max_length=256, null=True, blank=True)
     website = models.URLField(null=True, blank=True)

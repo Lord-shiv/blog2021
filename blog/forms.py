@@ -30,6 +30,7 @@ class MPTTCommentForm(forms.ModelForm):
 
 
 class PostCreateForm(forms.ModelForm):
+    # content = forms.CharField(trim_whitespace=False)
 
     class Meta:
         model = Post

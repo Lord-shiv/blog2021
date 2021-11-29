@@ -212,52 +212,38 @@ class PublicDetailView(DetailView):
     model = Profile
     template_name = 'users/public_profile.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['qs'] = Post.objects.filter(author=self.object)
+        context['qs_count'] = Post.objects.filter(author=self.object).count()
         return context
 
 
-@login_required('login')
+@login_required
 def follow_toggle(request):
     '''follow and don't follow user'''
     if request.POST.get('action') == 'post':
-        id_ = int(request.POST.get('id'))
+        user = request.user.profile
+        is_following = False
+        id_ = int(request.POST.get('userId'))
         user_profile = get_object_or_404(Profile, id=id_)
         user_followers = user_profile.following.all()
-        user = request.user
+        # user_follower_in = user_profile.following.filter(id=user.id)
 
-        if user in user_followers:
+        if user_followers.filter(id=user.id).exists():
             user_profile.following.remove(user)
-        user_profile.following.add(user)
 
-        return JsonResponse({'follow_count': user_followers.count()})
-
+        else:
+            user_profile.following.add(user)
+            is_following = True
+        
+        return JsonResponse({'follow_count': user_followers.count(), 'is_following': is_following})
 
 
 def public_profile(request, username):
     print('funky one')
     user = get_object_or_404(User, username=username)
     return render(request, 'users/public_profile.html', {'profile': user})
-
-
-def followToggle(request, author):
-    main_user = request.user
-    to_follow = User.objects.get(username=username)
-    following = Following.objects.filter(user=main_user, followed=to_follow)
-    is_following = True if following else False
-
-    if is_following:
-        Following.unfollow(main_user, to_follow)
-        is_following = False
-    else:
-        Following.follow(main_user, to_follow)
-        is_following = True
-    resp = {
-        'following': is_following,
-    }
-
-    response = json.dumps(resp)
-    return HttpResponse(response, content_type="application/json")    
 
 
 @login_required

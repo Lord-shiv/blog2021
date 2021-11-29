@@ -285,7 +285,7 @@ input[type="text"]:focus {
 
 .fa-home {
   color: rgba(9, 32, 121, 1);
-  font-size: 25px;
+  font-size: 20px;
 }
 
 
@@ -295,6 +295,7 @@ input[type="text"]:focus {
 
 .fa-user-cog{
   color: limegreen;
+  padding: 0;
 }
 
 .fa-search {
@@ -314,14 +315,16 @@ input[type="text"]:focus {
 
 /* +++++++++++++++ nav  ++++++++++++++ */
 .nav .nav-item {
-  padding: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 4px;
   background-color: white;
-  box-shadow: rgb(70, 69, 69) 0px 0px 2px 0px inset;
+  box-shadow: rgb(30, 30, 30) 0.5px 0.2px 2px 0px inset;
   border-bottom: none;
 }
 
 .nav .nav-item .nav-link {
-  padding: 7px;
+  padding: 4px;
   border: none;
   margin-bottom: -3px;
 }

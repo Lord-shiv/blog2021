@@ -32,6 +32,9 @@
 /*  ++++++++++++++++++++ */
 /* round progress in about ++++++++++++++++++++ */
 /*  ++++++++++++++++++++ */
+body {
+    font-family: 'Poppins', sans-serif;
+}
 .progress{
     width: 150px;
     height: 150px;
@@ -349,7 +352,7 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link bg-transparent active shadow-sm" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
                 type="button" role="tab" aria-controls="home" aria-selected="true" data-toggle=" tooltip"
-                title="home"><i class="fas fa-home fa-lg"></i></button>
+                title="home"><i class="fas fa-home"></i></button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link bg-transparent shadow-sm" id="search-tab" data-bs-toggle="tab" data-bs-target="#search"
@@ -446,6 +449,9 @@
         </div>  
     </div>
     <!-- messages -->
+     <!-- logo -->
+     <a href="{% url 'blog:home' %}" class="text-light logo p-2 text-decoration-none">Sky</a>
+     <!-- logo -->  
 
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -551,7 +557,7 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="p-3 border-start">
+                            <div class="p-5 ps-0">
                                 <div class="d-flex justify-content-between text-justify align-items-center"> <span
                                         class="fw-bold text-dark"><h5>Objective</h5></span> <i
                                         class="fa fa-search-plus text-dark"></i> </div>
@@ -672,37 +678,30 @@
                 </div>
             </div>
         </div>
-         <!-- logo -->
-        <a href="{% url 'blog:home' %}" class="text-light logo p-2">Sky</a>
-        <!-- logo -->
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class='container mt-n2'>
+            <div class='container mb-5 mt-3'>
                 {% block content %}{% endblock content %}
             </div>
         </div>
         <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="search-tab">
-            <div class="container mb-5">
-
-                <div class="p-3 mt-4">
+            <div class="container mb-5 mt-3">
+               
                     <h3 class="text-center mb-0"> <i class="fab fa-searchengin"></i> SEARCH <i class="fas fa-long-arrow-alt-right"></i></h3>
-                    <p class="font-weight-normal text-center text-muted"><small>search by author, blot title & text, categories, tag names etc. </small></p>
+                    <p class="font-weight-normal text-center text-muted"><small>search by author, blog title & text, categories, tag names etc. </small></p>
 
                     <div class="row d-flex justify-content-center">
                            <input type="text" class="form-control search-field border border-bottom-0 border-primary bg-light text-center border-3 p-2" placeholder="enter search keywords here" id="a-search-id">
-                       </div>
-                        <p class="font-weight-normal text-center s-results-head m-1"></p>
-                        <p class="font-weight-normal text-center mt-3 mb-3"><i class='fas fa-sort-down'></i></p>
-                        <div class="row search-results">
-                           <div class="col-lg-4">
-                           
-                           </div>
-                       </div>
-                </div>
-
-
+                    </div>
+                    <p class="font-weight-normal text-center s-results-head m-1"></p>
+                    <p class="font-weight-normal text-center mt-3 mb-3"><i class='fas fa-sort-down'></i></p>
+                    <div class="row search-results">
+                        <div class="col-lg-4">
+                        </div>
+                    </div>
+            </div>
         </div>
-    </div>
     <!-- navbar -->
+    </div>
 
 </body>
   

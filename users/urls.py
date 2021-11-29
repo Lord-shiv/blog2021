@@ -43,6 +43,7 @@ urlpatterns = [
     path('remove/post/bookmark/<int:id>/', views.remove_saved_bookmark, name='remove-post-bookmark'),
     path('add/post/detail/bookmark/', views.add_bookmark_detail_page, name='add-post-bookmark-detail-page'),
     path('add/post/bookmark/', views.add_post_bookmark, name='add-post-bookmark'),
+    path('follow/toggle/', views.follow_toggle, name='add-user-follow'),
     path('profile/bookmarks/', views.bookmarks_list, name='bookmarks-list'),
     path('validate/username/', csrf_exempt(UsernameValidation.as_view()), name="validate-username"),
     path('validate/email/', csrf_exempt(EmailValidation.as_view()), name="validate-email"),

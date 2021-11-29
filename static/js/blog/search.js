@@ -79,7 +79,7 @@ searchField.addEventListener('keyup', (e)=>{
                                             <p class="text-muted">${ shortText }</p>
                                         </ol>
                                         <div class="widget-49-meeting-action pb-2">
-                                            <a href="/post/${item.slug}" class="btn btn-sm btn-flash-border-primary">read morea..  <i class="far fa-angle-double-right"></i></a>
+                                            <a href="/post/${ item.slug__ }" class="btn btn-sm btn-flash-border-primary">read morea..  <i class="far fa-angle-double-right"></i></a>
                                         </div>
                                     </div>
                                 </div>

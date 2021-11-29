@@ -41,12 +41,12 @@ class PostListView(ListView):
     # paginate_by = 4
 
     def get_context_data(self, **kwargs):
-        most_recent = Post.objects.order_by('-created')[:2]
-        most_liked = Post.objects.annotate(upVotes_count=Count(
-            'upVotes')).order_by('-upVotes_count')[:2]
-        most_viewed = Post.objects.order_by('-upVotes')[:2]
+        most_recent = Post.objects.all().order_by('-created')[:3]
+        most_liked = Post.objects.all().annotate(upVotes_count=Count(
+            'upVotes')).order_by('-upVotes_count')[:3]
+        most_viewed = Post.objects.all().order_by('hit_count_generic')[:3]
         # most_liked_in_last_10_days = Post.objects.annotate(total_likes_in_dt=Count('upVotes', filter=Q(
-        #     date_added__lte=time)).filter(total_likes_in_dt__gt=0).order_by('total_likes_in_dt'))[:10]
+        #     date_added__lte=time)).filter(total_likes_in_dt__gt=0).order_by('total_likes_in_dt'))[:1]
         # all_tags=Post.tags.all()
         # common_tags=Post.tags.most_common()[:2]
         # similar_posts_by_tags=Post.tags.similar_objects()[:2]
@@ -65,7 +65,10 @@ class PostListView(ListView):
         context = {
             'queryset': qs,
             'categories': categories,
-            'tags': tags
+            'tags': tags,
+            'most_recent': most_recent,
+            'most_liked': most_liked,
+            'most_viewed': most_viewed,
         }
 
         return context
@@ -73,6 +76,7 @@ class PostListView(ListView):
 
 class CategoryDetailView(DetailView):
     '''
+    not using
     Category name: {{ category.name }}
 {% for post in category.post_set.all %}
     post: {{ post.title }}
@@ -354,10 +358,10 @@ def ajax_search(request):
                 author__user__username__icontains=search_str)).values(author__user__username=F("author__user__username"), content__=F("content"), title__=F('title'),
                                                                         category__name_=F("category__name"), tags__name=F("tags__name"),
                                                                         created_at__month=ExtractMonth('created'), created_at__date=ExtractDay('created'),
-                                                                        created_at__year=ExtractYear('created'))
+                                                                        created_at__year=ExtractYear('created'), slug__ =F("slug"))
             data = list(a_results)
             return JsonResponse(data, safe=False)
-        print("Here you go +++++++++++++++++++>>>>> ")
+        print("Here you go +++++++++++++++++++>>>>>")
         return JsonResponse(data=[], safe=False)
 
 

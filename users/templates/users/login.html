@@ -74,17 +74,17 @@
                   <div class="input-group">
                     <div class="input-group-addon m-n1 p-2 ml-n3">
                       <i class="fas fa-lock"></i> &#160;
-                      </div>
-                        <input 
-                        type="password"
-                        name="password"
-                        class="form-control rounded-right" 
-                        id="passwordField" 
-                        placeholder="Password"
-                        >
-                      <div class="inputWithIcon" id="showPassword">
-                        <i class="fas fa-eye"></i>
-                      </div>
+                    </div>
+                      <input 
+                      id="password-field" 
+                      type="password" 
+                      class="form-control" 
+                      name="password" 
+                      value="secret"
+                      >
+                    <div class="inputWithIcon" id="showPassword">
+                      <span toggle="#password-field" class="fa fa-eye field-icon bg-light border border-left-0 btn toggle-password rounded-0 text-secondary" style="padding-left:2px; padding-right: 2px; padding-top: 10px; padding-bottom: 10px;"></span>
+                    </div>
                   </div>
                   <div class="invalidPasswordFeedback pl-5" style="display: none">
                   </div>
@@ -96,7 +96,7 @@
                     remember me
                   </label>
                 </div>
-                <p class="text-muted small mt-n2 mb-3 text-center">Create new account - <a href="{% url 'users:register' %}">register <i class="fas fa-caret-right"></i> </a></p>
+                <p class="text-muted small mt-n2 mb-3 text-center">Create new account - <a href="{% url 'users:register' %}">REGISTER <i class="fas fa-caret-right"></i> </a></p>
                 <div class="d-grid">
                   <button class="btn btn-login text-uppercase fw-bold" Value="login" type="submit">Sign
                     in</button>

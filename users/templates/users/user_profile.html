@@ -5,10 +5,10 @@
 <div class="container">
   <div class="row gutters">
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-      <div class="card user-card shadow mt-4">
+      <div class="card user-card shadow-sm border-top dark mt-4">
         <div class="card-header">
           <h5>Profile</h5>
-          <span class="text-muted"><small> able to customize. </small></span>
+          <span class="text-muted"><small> customization available. </small></span>
         </div>
         <div class="card-block">
           <div class="user-image">
@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 mb-5">
       <div class="card h-100 card-edit mt-4">
         <div class="card-body">
           <!-- form -->
@@ -84,11 +84,11 @@
             <div class="row gutters">
 
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <h6 class="mb-2 text-primary">Personal Details</h6>
+                <h6 class="mb-2 text-primary">Personal Details <small>Editable</small></h6>
               </div>
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
-                  <label for="eMail">Username</label>
+                  <label for="eMail">Username <small>info.</small></label>
                   <input type="email" class="form-control" value="{{ user.username }}" disabled="disabled">
                   <small>
                     <p class="font-weight-light text-success">you can not update username*</p>
@@ -99,7 +99,7 @@
 
               <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="form-group">
-                  <label for="eMail">Email</label>
+                  <label for="eMail">Email <small>info.</small></label>
                   <input type="email" class="form-control" value="{{ user.email }}" disabled="disabled">
                   <small>
                     <p class="font-weight-light text-success">you can not update email*</p>

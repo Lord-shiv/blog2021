@@ -29,39 +29,40 @@
     .bookmark-switch {
         color: darkorange;
     }
+    
 </style>
 
 <div class="container">
     <div class="row">
         <div class="col-lg-8 order-first p-3">
             {% for post in queryset %}
-            <div class="posts row border shadow-sm rounded pt-3 mt-3">
+            <div class="posts row border rounded pt-3 mt-3 pe-2">
                 {% if post.image %}
-                <div class="col-md-4 mb-4"> <img class="post_img" src="{{ post.image.url }}" alt="blog image" style="margin-left: -12px; width:105%; height:160px;">
+                <div class="col-md-4 mb-3"> <img class="post_img" src="{{ post.image.url }}" alt="blog image" style="margin-left: -12px; width:105%; height:175px;">
                 </div>
                 {% else %}
-                <div class="col-md-4 mb-4"> <img src="{% static 'images/default3.png' %}" alt="some image" style="margin-left: -12px; width:105%; height:160px;"></div>
+                <div class="col-md-4 mb-3"> <img src="{% static 'images/default3.png' %}" alt="some image" style="margin-left: -12px; width:105%; height:175px;"></div>
                 {% endif %}
                 <div class="col-md-8 mb-4">
                     <div class="d-flex align-items-center">
                         {% if post.category.id == 1 %}
-                        <span class="bg-python">#{{post.category|truncatechars:8}}</span>
+                        <span class="bg-python">{{post.category|truncatechars:8}}</span>
                         {% elif post.category.id == 2 %}
-                        <span class="bg-vio">#{{post.category|truncatechars:8}}</span>
+                        <span class="bg-vio">{{post.category|truncatechars:8}}</span>
                         {% elif post.category.id == 3 %}
-                        <span class="bg-orgn">#{{post.category|truncatechars:8}}</span>
+                        <span class="bg-orgn">{{post.category|truncatechars:8}}</span>
                         {% elif post.category.id == 4 %}
-                        <span class="bg-violet">#{{post.category|truncatechars:8}}</span>
+                        <span class="bg-violet">{{post.category|truncatechars:8}}</span>
                         {% else %}
-                        <span class=" bg-vio">#{{post.category|truncatechars:8}}</span>
+                        <span class=" bg-vio">{{post.category|truncatechars:8}}</span>
                         {% endif %}
-                        <span class="text-muted ps-2" data-toggle=" tooltip" title="about author"><a href="{% url 'users:public_profile_view' post.author.id  %}" class="text-decoration-none"><i
-                                    class="fas fa-user"></i> {{post.author|truncatechars:8}}</a>
-                        |</span>
-                        <span class="text-muted ps-1">{{ post.created|date:"F d,Y"}} </span>
+                        <span class="text-muted ps-2" data-toggle=" tooltip" title="about author">
+                            <a href="{% url 'users:public_profile_view' post.author.id  %}" class="text-decoration-none">
+                                <i class="fas fa-user text-secondary fa-sm"></i><strong> {{post.author|truncatechars:8}} </strong> <i class="fas fa-external-link fa-sm"></i></a> <strong> &#xFFEB;</strong> <i class="fal fa-calendar-alt fa-sm"></i> </span>
+                        <span class="text-muted ps-1"><small>{{ post.created|date:"M d/y"}}</small> </span>
                     </div>
-                    <div class="d-flex">
-                        <p class="fs5 my-3 fw-bolder text-uppercase"><a>{{ post.title|truncatewords:7 }}</a></p>
+                    <div class="d-flex" style="margin-top: -5px;">
+                        <p class="fs5 my-3 fw-bolder"><a>{{ post.title|truncatewords:10 }}</a></p>
                         <span class="ms-auto justify-content-end pe-2 ps-1" style="white-space: nowrap;">
                             <span id="{{post.id}}" class="bookmark_coun text-muted">{{ post.get_bookmarks_count }}</span>
                             {% if user.is_authenticated %}
@@ -75,21 +76,26 @@
                             {% endif %}
                         </span>
                     </div>
-                    <div>
-                        <p class="text-muted">
-                            {{ post.content|linebreaksbr|truncatewords:22 }}
-                            {% if post.content|wordcount > 22 %}
-                            <a href="{% url 'blog:post-detail' post.slug %}" title="view full post" class="text-decoration-none border-bottom border-primary">read more.. <i class="far fa-angle-double-right"></i> </a>
+                    <div class="">
+                        <p class="text-muted" style="margin-top: -9px; text-align: justify;">
+     
+                            {{ post.content|truncatewords:23 }}
+
+                            {% if post.content|wordcount > 23 %}
+
+                            <a href="{% url 'blog:post-detail' post.slug %}" title="view full post" class="fw-bolder text-decoration-none float-end ">Read more.. <i class="far fa-angle-double-right"></i> </a>
                             {% else %}
-                            <a href=" {% url 'blog:post-detail' post.slug %}" title="view post" class="text-decoration-none border-bottom border-primary">view post.. <i class="far fa-angle-double-right"></i></a>
+
+                            <a href="{% url 'blog:post-detail' post.slug %}" title="view post" class="fw-bolder text-decoration-none float-end">View post.. <i class="far fa-angle-double-right"></i></a>
                             {% endif %}
                         </p>
                     </div>
-                    <div>
+                    <div class=""  style=" margin-bottom: -15px; margin-top: -15px;">
                         <span class="text-muted ps-1 pe-2">
-                            <i class="far fa-eye m-1 text-muted"></i> {% get_hit_count for post %}
+                            <small><i class="far fa-eye m-1 text-muted fa-sm"></i></small>
+                             {% get_hit_count for post %}
                             <!-- <i class="fad fa-eye text-secondary"></i> -->
-                            Views {{ hitcount.hit_counted }}</span>
+                            views {{ hitcount.hit_counted }}</span>
                         <span class="text-muted">
                             <!-- <i class="fas fa-thumbs-up"></i> -->
                             <i class="fas fa-angle-double-up fa-lg"></i>
@@ -119,8 +125,8 @@
         </div>
         <div class="col-lg-4 order-last mt-5 pt-2 mb-3 ps-4">
             <ul class="list-group">
-            <span class="fs-4 mb-2 fw-bold text-capitalize">CATEGORIES</span>
-            <div class="cats d-flex flex-column">
+            <span class="fs-4 mb-2 fw-bold text-capitalize">CATEGORIES <small>(Board)</small></span>
+            <div class="cats d-flex flex-column mb-3">
                 <div class="cat d-flex align-items-center justify-content-between py-2"> <span>Web
                         Design</span> <span class="bg-green">340</span> </div>
                 <div class="cat d-flex align-items-center justify-content-between py-2">
@@ -135,23 +141,46 @@
             </div>
             </ul>
             
-            <div class="fs-4 fw-bold text-capitalize mt-4 mb-2">TAGS </div>
+            <div class="fs-4 fw-bold text-capitalize mt-4 mb-2">TAGS <small>(Board)</small></div>
             <div class="d-flex flex-wrap pb-5">
+                {% for tag in tags %}
                 <a class="items" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Chorme" href="#">Chorme</a> <a class="items" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="CSS" href="#">CSS</a> <a class="items" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Tutorial" href="#">Tutorial</a> <a class="items" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Backend" href="#">Backend</a> <a class="items"
-                    data-bs-toggle="tooltip" data-bs-placement="left" title="JQuery" href="#">JQuery</a> <a
-                    class="items" data-bs-toggle="tooltip" data-bs-placement="top" title="Design" href="#">Design</a> <a
-                    class="items" data-bs-toggle="tooltip" data-bs-placement="right" title="Development"
-                    href="#">Development</a>
-                <a class="items" data-bs-toggle="tooltip" data-bs-placement="bottom" title="javascript"
-                    href="#">Javascript</a>
-                <a class="items" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Website"
-                    href="#">Website</a>
+                    title="Chorme" href="#">{{ tag.name }}</a>
+                {% endfor %}
             </div>
 
+            <div><h4 class="fw-bold mb-3">RECENT BLOGS</h4>
+                <div class="card ps-2 pe-2 pt-1 pb-2 mb-5">
+                    {% for r_blog in most_recent %}
+                    <div class="d-flex flex-row pt-2"><img class="rounded" src="{{ r_blog.image.url }}" width="80">
+                        <div class="d-flex flex-column ms-2"><span><small><a href="/post/{{ r_blog.slug }}/" class="text-decoration-none text-secondary"> {{ r_blog.title|truncatewords:6 }} ({{ r_blog.category }})</a></small></span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div><h4 class="fw-bold">MOST LIKED </h4>
+                <div class="card ps-2 pe-2 pt-1 pb-2 mb-5">
+                    {% for l_blog in most_liked %}
+                    <div class="d-flex flex-row pt-2"><img class="rounded" src="{{ l_blog.author.avatar.url }}" width="45">
+                        <div class="d-flex flex-column ms-2"><span><small><a href="/post/{{ l_blog.slug }}/" class="text-decoration-none text-secondary"> {{ l_blog.title|truncatewords:6 }} ({{ l_blog.category }})</a></small></span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div><h4 class="fw-bold">MOST VIEWED </h4>
+                <div class="card ps-2 pe-2 pt-1 pb-2 mb-5">
+                    {% for v_blog in most_viewed %}
+                    <div class="d-flex flex-row pt-2"><img class="rounded" src="{{ v_blog.author.avatar.url }}" width="45">
+                        <div class="d-flex flex-column ms-2"><span><small><a href="/post/{{ v_blog.slug }}/" class="text-decoration-none text-secondary"> {{ v_blog.title|truncatewords:6 }} ({{ v_blog.category }})</a></small></span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
