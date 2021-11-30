@@ -46,7 +46,6 @@ class UserManager(BaseUserManager):
         return user_obj
 
 alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
-
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(
@@ -92,6 +91,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_active
 
 
+phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$' 'eneter correct phone number')
 class Profile(models.Model):
     '''is private
     multiple images 
@@ -114,11 +114,9 @@ class Profile(models.Model):
         max_length=6, choices=GENDER, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(null=True, blank=True)
-    mobile = models.CharField(max_length=15, null=True, blank=True)
-    # from phonenumber_field.modelfields import PhoneNumberField
-    # phonenumber = PhoneNumberField(blank=True)
-    # location = models.charField(max_length=150, null=True, blank=True)
-    # language = models.charField(max_length=150, null=True, blank=True)
+    mobile =  models.CharField(blank=True, null=True, validators=[alphanumeric], unique=True, max_length=15)
+    location = models.CharField(max_length=150, null=True, blank=True)
+    language = models.CharField(max_length=150, null=True, blank=True)
     country = models.CharField(max_length=150, null=True, blank=True)
     address = models.CharField(max_length=256, null=True, blank=True)
     website = models.URLField(null=True, blank=True)

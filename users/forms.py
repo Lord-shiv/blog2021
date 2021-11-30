@@ -140,11 +140,6 @@ class UserProfileForm(forms.ModelForm):
     date_of_birth = forms.DateField(widget=NumberInput(
         attrs={'type': 'date'}), required=False)
 
-    # from phonenumber_field.formfields import PhoneNumberField
-
-    # phonenumber = PhoneNumberField(widget=forms.TextInput(attrs={'placeholder': _('Phone')}), 
-
-    #                    label=_("Phone number"), required=False)
 
     # timefield = forms.DateTimeField(input_formats=['%I:%M %p %d-%b-%Y'],
     #                                     widget=forms.DateTimeInput(
@@ -153,8 +148,8 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'mobile', 'country', 'avatar', 'address', 'gender',
-                  'date_of_birth', 'pincode', 'website', 'bio']
+        fields = ['first_name', 'last_name',  'avatar',  'mobile', 'country', 'address', 'gender',
+                  'date_of_birth', 'pincode', 'language', 'location', 'website', 'bio']
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': 'first name'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'last name'}),

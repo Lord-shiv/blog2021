@@ -127,17 +127,50 @@
             <ul class="list-group">
             <span class="fs-4 mb-2 fw-bold text-capitalize">CATEGORIES <small>(Board)</small></span>
             <div class="cats d-flex flex-column mb-3">
-                <div class="cat d-flex align-items-center justify-content-between py-2"> <span>Web
-                        Design</span> <span class="bg-green">340</span> </div>
-                <div class="cat d-flex align-items-center justify-content-between py-2">
-                    <span>javascript</span> <span class="bg-orgn">74</span>
-                </div>
-                <div class="cat d-flex align-items-center justify-content-between py-2">
-                    <span>JQuery</span> <span class="bg-blu">41</span>
-                </div>
-                <div class="cat d-flex align-items-center justify-content-between py-2"> <span>CSS</span>
-                    <span class="bg-violet">35</span>
-                </div>
+                {% for cat in categories %}
+               
+                {% if cat.id == 1 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"> <span>{{ cat}}</span> 
+                        <span class="bg-green">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 2 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"><span>{{ cat}}</span>
+                        <span class="bg-orgn">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 3 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"><span>{{ cat}}</span>
+                        <span class="bg-blu">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 4 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"> <span>{{ cat}}</span>
+                        <span class="bg-violet">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 5 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"> <span>{{ cat}}</span>
+                        <span class="bg-green">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 6 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"> <span>{{ cat}}</span>
+                        <span class="bg-orgn">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 7 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"> <span>{{ cat}}</span>
+                        <span class="bg-blu">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 15 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"> <span>{{ cat}}</span>
+                        <span class="bg-violet">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 8 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"> <span>{{ cat}}</span>
+                        <span class="bg-green">{{ cat.post_set.count }}</span>
+                    </div>
+                    {% elif cat.id == 9 %}
+                    <div class="cat d-flex align-items-center justify-content-between py-2"> <span>{{ cat}}</span>
+                        <span class="bg-orgn">{{ cat.post_set.count }}</span>
+                    </div>
+                {% endif %}
+                {% endfor %}
             </div>
             </ul>
             

@@ -44,7 +44,7 @@ class Post(models.Model):
     bookmarks = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='bookmark', default=None, blank=True)
     image = ResizedImageField(
-        upload_to='images/blog/', quality=75, crop=['middle', 'center'], size=[600, 300], blank=True, null=True)
+        upload_to='images/blog/', quality=100, crop=['middle', 'center'], size=[1920, 1080], blank=True, null=True)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
                                         related_query_name='hit_count_generic_relation')
     category = models.ForeignKey(

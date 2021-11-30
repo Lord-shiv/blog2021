@@ -112,11 +112,10 @@ class SignIn(View):
             password = form.cleaned_data["password"]
             if email and password:
                 user = authenticate(email=email, password=password)
-                print('user')
                 if user:
                     if user.is_active:
                         login(request, user)
-                        messages.info(request, f'Welcome back {user.username}!')
+                        messages.info(request, f'Welcome {user.username}!')
                         return redirect('/')
                     messages.error(request, 'Account is not active,please check your email')
                     return render(request, 'users/login.html')

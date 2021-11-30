@@ -34,7 +34,7 @@ class PostCreateForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'content', 'image', 'video', 'status', 'category', 'tags']
+        fields = ['title', 'content', 'image', 'status', 'category', 'tags']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
