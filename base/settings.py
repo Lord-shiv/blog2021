@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['https://skyblogscommunity.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['skyblogscommunity.herokuapp.com', 'localhost', '127.0.0.1',]
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
