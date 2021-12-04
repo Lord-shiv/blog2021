@@ -69,6 +69,10 @@ class SignUpView(View):
                 user.save()
                 messages.success(request, 'Account successfully created')
                 return render(request, 'users/confirm_link.html')
+            else:
+                messages.success(request, 'Email already exist.')
+                return render(request, 'users/confirm_link.html')
+
         
         return render(request, 'users/register.html')
 
@@ -236,7 +240,7 @@ def follow_toggle(request):
             user_profile.following.add(user)
             is_following = True
         
-        return JsonResponse({'follow_count': user_followers.count(), 'is_following': is_following})
+    return JsonResponse({'follow_count': user_followers.count(), 'is_following': is_following})
 
 
 def public_profile(request, username):
@@ -328,5 +332,5 @@ def add_post_bookmark(request):
             post.save()
             result = post.get_bookmarks_count()
 
-        return JsonResponse({'result': result, 'bookmark_count': post.bookmarks.all().count(), 'post_id': id_})
+    return JsonResponse({'result': result, 'bookmark_count': post.bookmarks.all().count(), 'post_id': id_})
 

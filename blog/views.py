@@ -107,7 +107,7 @@ def like_post(request):
             post.upVote_count += 1
             result = post.number_of_upVotes()
             post.save()
-        return JsonResponse({ 'result': result, 'like_count': post.upVotes.all().count(), 'dislike_count': post.downVotes.all().count() })
+    return JsonResponse({ 'result': result, 'like_count': post.upVotes.all().count(), 'dislike_count': post.downVotes.all().count() })
 
 
 @login_required
@@ -130,7 +130,7 @@ def dislike_post(request):
             post.downVote_count += 1
             result = post.number_of_downVotes()
             post.save()
-        return JsonResponse({ 'result': result, 'dislike_count': post.downVotes.all().count(), 'like_count': post.upVotes.all().count() })
+    return JsonResponse({ 'result': result, 'dislike_count': post.downVotes.all().count(), 'like_count': post.upVotes.all().count() })
 
 
 # def tagged(request, slug):
@@ -361,8 +361,8 @@ def ajax_search(request):
                                                                         created_at__year=ExtractYear('created'), slug__ =F("slug"))
             data = list(a_results)
             return JsonResponse(data, safe=False)
-        print("Here you go +++++++++++++++++++>>>>>")
         return JsonResponse(data=[], safe=False)
+    return JsonResponse(data=[], safe=False)
 
 
 # if query:
