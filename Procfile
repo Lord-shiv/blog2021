@@ -1,1 +1,1 @@
-web: gunicorn base.wsgi --preload
+web: gunicorn base.wsgi --preload WEB_CONCURRENCY=3 --timeout 10
