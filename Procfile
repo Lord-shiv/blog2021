@@ -1,1 +1,1 @@
-web: gunicorn base.wsgi --log-file=- --timeout 60
+web: waitress-serve --port=$PORT base.wsgi:application
