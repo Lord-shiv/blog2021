@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT base.wsgi:application
+web: gunicorn base.wsgi --preload
