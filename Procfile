@@ -1,1 +1,1 @@
-web: gunicorn base.wsgi --log-file - --log-level debug --preload
+web: gunicorn base.wsgi --log-file - --timeout 40
