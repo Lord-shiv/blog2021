@@ -1,1 +1,1 @@
-web: gunicorn base.wsgi --log-file - --timeout 40 --bind 0.0.0.0:$PORT
+web: gunicorn base.wsgi --log-file - --bind 0.0.0.0:$PORT
