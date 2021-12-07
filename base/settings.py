@@ -101,8 +101,9 @@ DATABASES = {
     }
 }
 
-# db_from_env = dj_database_url.config()
-# DATABASES['default'].update(db_from_env)
+import dj_database_url 
+DATABASES = {'default': dj_database_url.parse('postgres://wmduhidpphropx:a8042affb9083b82392e14912e7a3610dd0388eeb928197556c64036e5f5e134@ec2-52-201-195-11.compute-1.amazonaws.com:5432/d31p4m56oc0g9f')}
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
