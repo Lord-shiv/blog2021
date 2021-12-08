@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'taggit',
     'hitcount',
     'crispy_forms',
+    'storages',
     'blog',
     'users',
     'corsheaders',
