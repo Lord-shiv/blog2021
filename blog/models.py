@@ -56,7 +56,6 @@ class Post(models.Model):
         settings.AUTH_USER_MODEL, blank=True, related_name='DownVotes')
     upVote_count = models.BigIntegerField(default='0')
     downVote_count = models.BigIntegerField(default='0')
-    
 
 
     class Meta:
@@ -88,6 +87,8 @@ class Post(models.Model):
     
     def get_bookmarks_count(self):
         return self.bookmarks.count()
+
+
 
 
 class Comment(MPTTModel):

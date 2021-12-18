@@ -185,43 +185,12 @@
             <div><h4 class="fw-bold mb-3">RECENT BLOGS</h4>
                 <div class="card ps-2 pe-2 pt-1 pb-2 mb-5">
                     {% for r_blog in most_recent %}
-                    {% if r_blog.image %}
-                    <div class="d-flex flex-row pt-2"><img class="rounded" src="{{ r_blog.image.url }}" width="80">
-                    {% else %}
-                    <div class="d-flex flex-row pt-2"><img class="rounded" src="https://skyblogs-static.s3.us-east-2.amazonaws.com/static/images/default3.png" width="45">
-                    {% endif %}
-                        <div class="d-flex flex-column ms-2"><span><small><a href="/post/{{ r_blog.slug }}/" class="text-decoration-none text-secondary"> {{ r_blog.title|truncatewords:6 }} ({{ r_blog.category }})</a></small></span>
+                    <div class="d-flex flex-column ms-2"><span><small><a href="/post/{{ r_blog.slug }}/" class="text-decoration-none text-secondary"><i class="fas fa-caret-right"></i>  {{ r_blog.title|truncatewords:6 }} ({{ r_blog.category }})</a></small></span>
                         </div>
-                    </div>
                     {% endfor %}
                 </div>
             </div>
-
-            <div><h4 class="fw-bold">MOST LIKED </h4>
-                <div class="card ps-2 pe-2 pt-1 pb-2 mb-5">
-                    {% for l_blog in most_liked %}
-                    {% if l_blog.image %}
-                    <div class="d-flex flex-row pt-2"><img class="rounded" src="{{ l_blog.author.avatar.url }}" width="45">
-                    {% else %}
-                    <div class="d-flex flex-row pt-2"><img class="rounded" src="https://skyblogs-static.s3.us-east-2.amazonaws.com/static/images/default3.png" width="45">
-                    {% endif %}
-                        <div class="d-flex flex-column ms-2"><span><small><a href="/post/{{ l_blog.slug }}/" class="text-decoration-none text-secondary"> {{ l_blog.title|truncatewords:6 }} ({{ l_blog.category }})</a></small></span>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div><h4 class="fw-bold">MOST VIEWED </h4>
-                <div class="card ps-2 pe-2 pt-1 pb-2 mb-5">
-                    {% for v_blog in most_viewed %}
-                    <div class="d-flex flex-row pt-2"><img class="rounded" src="{{ v_blog.author.avatar.url }}" width="45">
-                        <div class="d-flex flex-column ms-2"><span><small><a href="/post/{{ v_blog.slug }}/" class="text-decoration-none text-secondary"> {{ v_blog.title|truncatewords:6 }} ({{ v_blog.category }})</a></small></span>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+           
         </div>
     </div>
 </div>
