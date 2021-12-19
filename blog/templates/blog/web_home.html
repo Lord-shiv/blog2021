@@ -46,15 +46,15 @@
                 <div class="col-md-8 mb-4">
                     <div class="d-flex align-items-center">
                         {% if post.category.id == 1 %}
-                        <span class="bg-python">{{post.category|truncatechars:8}}</span>
+                        <span class="bg-python">{{post.category|truncatechars:10}}</span>
                         {% elif post.category.id == 2 %}
-                        <span class="bg-vio">{{post.category|truncatechars:8}}</span>
+                        <span class="bg-blue">{{post.category|truncatechars:10}}</span>
                         {% elif post.category.id == 3 %}
-                        <span class="bg-orgn">{{post.category|truncatechars:8}}</span>
+                        <span class="bg-org">{{post.category|truncatechars:10}}</span>
                         {% elif post.category.id == 4 %}
-                        <span class="bg-violet">{{post.category|truncatechars:8}}</span>
+                        <span class="bg-vio">{{post.category|truncatechars:10}}</span>
                         {% else %}
-                        <span class=" bg-vio">{{post.category|truncatechars:8}}</span>
+                        <span class=" bg-vio">{{post.category|truncatechars:10}}</span>
                         {% endif %}
                         <span class="text-muted ps-2" data-toggle=" tooltip" title="about author">
                             <a href="{% url 'users:public_profile_view' post.author.id  %}" class="text-decoration-none">
