@@ -238,10 +238,9 @@
             <p class="mb-0 blur-back mt-3"><small><i class="fal fa-mug-hot fa-lg"></i> 10 min read..</small></p>
             
             <p class="text-dark mt-4">
-                {% if object.author.avatar.url %}
-                <img src="{{ object.author.avatar.url }}" alt="John Doe" class="ml-n3 rounded-circle" style="width:45px;  border-top: 2.5px solid transparent; border-bottom: 2.5px solid transparent; padding: 5px;  border-left: 2.5px solid white; border-right: 2.5px solid white;"/>
-                {% else %}
-                <img src="https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png"  class="ml-n3 rounded-circle" style="width:45px;  border-top: 2.5px solid transparent; border-bottom: 2.5px solid transparent; padding: 5px;  border-left: 2.5px solid white; border-right: 2.5px solid white;"/>
+
+                <img src="{{ object.author.avatar|default_if_none:'https://skyblogs-static.s3.us-east-2.amazonaws.com/media/images/profile_pics/default_icon.jpg' }}" class="ml-n3 rounded-circle" style="width:45px;  border-top: 2.5px solid transparent; border-bottom: 2.5px solid transparent; padding: 5px;  border-left: 2.5px solid white; border-right: 2.5px solid white;"/>
+                
                 <a href="{% url 'blog:user-posts' object.author_id %}" class="blur-blue">
                     <small> {{ object.author }} profile <i class="fal fa-external-link-alt"></i></small>
                 </a>
